@@ -11,6 +11,7 @@ import type {
   SyncOperationRecord,
   SyncOperationStatus,
   SyncConflictType,
+  SummaryReportData,
 } from '../features/admin/types';
 
 export const MOCK_ADMIN_DASHBOARD_DATA: AdminDashboardData = {
@@ -1422,5 +1423,119 @@ export async function resolveSyncOperation(
         resolve({ success: false, message: 'Sync operation record not found.' });
       }
     }, 200);
+  });
+}
+
+// ==========================================
+// A-P10: BASIC REPORTS & PLATFORM SUMMARY
+// Basic Evaluative Statistics (A24, A06)
+// ==========================================
+
+export async function fetchSummaryReports(
+  period: TimeRangeFilter = 'month'
+): Promise<SummaryReportData> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      let multiplier = 1.0;
+      let periodLabel = 'This Month (Jan 2025)';
+
+      switch (period) {
+        case 'today':
+          multiplier = 0.034;
+          periodLabel = 'Today (Jan 21, 2025)';
+          break;
+        case 'week':
+          multiplier = 0.234;
+          periodLabel = 'This Week (Jan 15–21, 2025)';
+          break;
+        case 'month':
+          multiplier = 1.0;
+          periodLabel = 'This Month (Jan 2025)';
+          break;
+        case 'quarter':
+          multiplier = 3.0;
+          periodLabel = 'Q1 2025 (Jan–Mar)';
+          break;
+        case 'year':
+          multiplier = 12.0;
+          periodLabel = 'Annual (2025 Calendar Year)';
+          break;
+      }
+
+      const baseLitres = 12560.5;
+      const totalRecordedLitres = Math.round(baseLitres * multiplier * 10) / 10;
+      const avgPrice = 210.0;
+      const totalTurnoverLkr = Math.round(totalRecordedLitres * avgPrice);
+
+      const report: SummaryReportData = {
+        period,
+        periodLabel,
+        totalRecordedLitres,
+        totalTurnoverLkr,
+        avgUnitPriceLkr: avgPrice,
+        userSummary: {
+          totalUsers: 124,
+          farmers: 68,
+          collectors: 12,
+          buyers: 210,
+          admins: 4,
+          activeUsers: 118,
+          pendingUsers: 5,
+          disabledUsers: 1,
+        },
+        listingSummary: {
+          totalListings: Math.max(12, Math.round(56 * Math.min(1.0, multiplier))),
+          activeCount: 45,
+          reservedCount: 8,
+          expiredCount: 3,
+          disabledCount: 0,
+          totalAvailableLitres: 2350.0,
+          totalReservedLitres: 890.0,
+        },
+        orderSummary: {
+          totalOrders: Math.max(14, Math.round(152 * multiplier)),
+          completedOrders: Math.max(10, Math.round(112 * multiplier)),
+          inTransitOrders: 8,
+          acceptedOrders: 14,
+          reservedOrders: 9,
+          pendingOrders: 6,
+          cancelledOrders: Math.max(1, Math.round(3 * multiplier)),
+          totalCompletedLitres: totalRecordedLitres,
+          totalRecordedCashLkr: totalTurnoverLkr,
+        },
+        regionalBreakdown: [
+          {
+            district: 'Anuradhapura',
+            totalLitres: Math.round(totalRecordedLitres * 0.43 * 10) / 10,
+            turnoverLkr: Math.round(totalTurnoverLkr * 0.43),
+            orderCount: Math.round(112 * multiplier * 0.43),
+            activeFarmers: 28,
+          },
+          {
+            district: 'Kurunegala',
+            totalLitres: Math.round(totalRecordedLitres * 0.33 * 10) / 10,
+            turnoverLkr: Math.round(totalTurnoverLkr * 0.33),
+            orderCount: Math.round(112 * multiplier * 0.33),
+            activeFarmers: 22,
+          },
+          {
+            district: 'Polonnaruwa',
+            totalLitres: Math.round(totalRecordedLitres * 0.15 * 10) / 10,
+            turnoverLkr: Math.round(totalTurnoverLkr * 0.15),
+            orderCount: Math.round(112 * multiplier * 0.15),
+            activeFarmers: 11,
+          },
+          {
+            district: 'Kandy / Nuwara Eliya',
+            totalLitres: Math.round(totalRecordedLitres * 0.09 * 10) / 10,
+            turnoverLkr: Math.round(totalTurnoverLkr * 0.09),
+            orderCount: Math.round(112 * multiplier * 0.09),
+            activeFarmers: 7,
+          },
+        ],
+      };
+
+      resolve(report);
+    }, 120);
   });
 }

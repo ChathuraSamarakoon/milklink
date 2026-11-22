@@ -328,3 +328,48 @@ export interface AdminDashboardData {
     activeLitres: number;
   }>;
 }
+
+export interface SummaryReportData {
+  period: TimeRangeFilter;
+  periodLabel: string;
+  totalRecordedLitres: number;
+  totalTurnoverLkr: number;
+  avgUnitPriceLkr: number;
+  userSummary: {
+    totalUsers: number;
+    farmers: number;
+    collectors: number;
+    buyers: number;
+    admins: number;
+    activeUsers: number;
+    pendingUsers: number;
+    disabledUsers: number;
+  };
+  listingSummary: {
+    totalListings: number;
+    activeCount: number;
+    expiredCount: number;
+    disabledCount: number;
+    reservedCount: number;
+    totalAvailableLitres: number;
+    totalReservedLitres: number;
+  };
+  orderSummary: {
+    totalOrders: number;
+    completedOrders: number;
+    inTransitOrders: number;
+    acceptedOrders: number;
+    reservedOrders: number;
+    pendingOrders: number;
+    cancelledOrders: number;
+    totalCompletedLitres: number;
+    totalRecordedCashLkr: number;
+  };
+  regionalBreakdown: Array<{
+    district: string;
+    totalLitres: number;
+    turnoverLkr: number;
+    orderCount: number;
+    activeFarmers: number;
+  }>;
+}
