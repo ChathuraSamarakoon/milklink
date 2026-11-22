@@ -1,0 +1,58 @@
+.profile-reference-page {--ml2-accent:#07872e;--ml2-pale:#e8f7eb;color:#041c2c;}
+.profile-reference-page .ml2-content-inner {background:linear-gradient(120deg,#fff,#fbfdff);}
+.profile-reference-page .ml2-content h1 {color:#031d2d;font-weight:950;}
+.profile-reference-page .ml2-subtitle {color:#697a9b;}
+.profile-cover {display:none;}
+.profile-reference-page .profile-overview {border-color:#e4eaf0;border-radius:18px;box-shadow:0 8px 18px #16364f12;padding:0 13px 13px;overflow:hidden;}
+.profile-overview .ml2-panel-heading {background:linear-gradient(100deg,#f5faf7,#f7fbf9);padding:12px 3px;margin:0 -13px 0;padding-left:16px;padding-right:14px;}
+.profile-overview .ml2-panel-heading h2 {font-size:17px;color:#041d2e;gap:13px;letter-spacing:-.5px;}
+.profile-overview .ml2-panel-heading h2 svg {width:24px;height:24px;}
+.profile-overview .ml2-chip {font-size:12px;background:#e2f5e6;color:#09842e;padding:4px 11px;}
+.profile-overview .ml2-profile-head {padding:10px 2px;gap:15px;margin:0;border-bottom:1px solid #e8eef3;display:flex;align-items:center;}
+.profile-overview .ml2-profile-avatar {width:88px;height:88px;flex:0 0 88px;border:4px solid #fff;box-shadow:0 4px 10px #153b4a24;border-radius:50%;object-fit:cover;}
+.profile-overview .ml2-profile-head>div {min-width:0;}
+.profile-overview .ml2-profile-head h2 {font-size:20px;font-weight:950;color:#031c2c;letter-spacing:-.5px;margin:0 0 8px;}
+.profile-overview .ml2-profile-head .ml2-chip {font-size:12px;padding:4px 8px;gap:5px;}
+.profile-overview .ml2-profile-head p {font-size:14px;color:#637084;margin:7px 0 0;line-height:1.3;}
+.profile-overview .ml2-info-row {padding:5px 0;gap:16px;border-color:#e9eef4;min-height:50px;}
+.profile-overview .ml2-info-icon {height:40px;width:44px;flex-basis:44px;border-radius:12px;background:#e8f7eb;color:#07872e;}
+.profile-overview .ml2-info-icon svg {width:24px;height:24px;}
+.profile-overview .ml2-info-row strong {font-size:13px;letter-spacing:-.3px;color:#061d2c;font-weight:950;}
+.profile-overview .ml2-info-row small {font-size:13px;color:#627084;overflow-wrap:anywhere;}
+.profile-overview .ml2-action-block {margin-top:15px;border-radius:10px;background:linear-gradient(115deg,#31a51a,#00953c 65%,#006d36);border:0;min-height:45px;font-size:17px;gap:12px;}
+.profile-overview .ml2-action-block svg {width:23px;height:23px;}
+.profile-overview .ml2-form {padding-top:15px;}
+.profile-preferences {background:#fff;border:1px solid #e4eaf0;border-radius:17px;box-shadow:0 8px 18px #16364f0c;margin-top:18px;overflow:hidden;}
+.profile-preferences summary {display:flex;align-items:center;gap:13px;padding:15px;list-style:none;cursor:pointer;font-size:17px;letter-spacing:-.4px;color:#041d2e;font-weight:950;}
+.profile-preferences summary::-webkit-details-marker {display:none;}
+.profile-preferences summary>svg:first-child {color:#07872e;}
+.profile-preferences summary>svg:last-child {margin-left:auto;transition:transform .2s;}
+.profile-preferences[open] summary>svg:last-child {transform:rotate(90deg);}
+.profile-preferences summary:focus-visible {outline:3px solid #229c50;outline-offset:-4px;}
+.profile-preferences-content {padding:0 15px 15px;}
+.profile-preferences-content>.ml2-action {margin-top:12px;}
+@media(max-width:850px) {
+ .profile-reference-page .ml2-app {max-width:none;background:#fff;}
+ .profile-reference-page .ml2-header {height:64px;gap:13px;padding:0 4%;}
+ .profile-reference-page .ml2-header-icon {width:36px;height:36px;border-radius:13px;}
+ .profile-reference-page .ml2-header .ml-brand {font-size:25px;color:#031b2c;gap:10px;}
+ .profile-reference-page .ml2-header .ml-brand-name small {font-size:8px;letter-spacing:1.4px;margin-top:7px;}
+ .profile-reference-page .ml2-header .ml-brand-symbol svg {height:34px;width:28px;}
+ .profile-reference-page .ml2-header-avatar {background:linear-gradient(120deg,#00952e,#006e23);width:36px;height:36px;font-size:18px;}
+ .profile-cover {display:block;position:relative;width:100%;aspect-ratio:2.65;overflow:hidden;border-radius:22px 22px 0 0;background:#125731;}
+ .profile-cover>img {width:100%;height:100%;object-fit:cover;object-position:center;}
+ .profile-cover-title {position:absolute;top:12%;left:40%;color:#fff;font-family:'Segoe Print','Brush Script MT',cursive;font-size:clamp(23px,5.6vw,46px);font-style:italic;transform:rotate(-8deg);text-shadow:0 2px 5px #06432155;white-space:nowrap;}
+ .profile-cover-title>svg {color:#b5df21;position:absolute;right:-15px;top:0;}
+ .profile-cover-title>span {display:block;width:75%;height:8px;border-top:3px solid #a8d612;border-radius:50%;margin:5px auto 0;}
+ .profile-cover-wave {position:absolute;bottom:0;left:0;width:100%;height:29%;}
+ .profile-reference-page .ml2-content {background:white;}
+ .profile-reference-page .ml2-content-inner {position:relative;margin-top:-10px;border-radius:24px 24px 0 0;padding:21px 4% 38px;max-width:none;}
+ .profile-reference-page .ml2-eyebrow {font-size:10px;letter-spacing:1.65px;margin:0 7px;}
+ .profile-reference-page .ml2-content h1 {font-size:29px;margin:8px 7px 9px;letter-spacing:-1px;}
+ .profile-reference-page .ml2-subtitle {font-size:13px;margin:0 7px 20px;line-height:1.45;}
+}
+@media(min-width:600px) and (max-width:850px) {
+ .profile-reference-page .ml2-header {height:14vw;}.profile-reference-page .ml2-header .ml-brand {font-size:5vw;}.profile-reference-page .ml2-content h1 {font-size:6vw;}.profile-reference-page .ml2-subtitle {font-size:2.8vw;}.profile-reference-page .ml2-eyebrow {font-size:2.2vw;}.profile-overview .ml2-panel-heading h2,.profile-preferences summary {font-size:3.5vw;}.profile-overview .ml2-profile-avatar {width:20vw;height:20vw;flex-basis:20vw;}.profile-overview .ml2-profile-head h2 {font-size:4vw;}.profile-overview .ml2-info-row {min-height:11vw;}.profile-overview .ml2-info-row strong,.profile-overview .ml2-info-row small {font-size:2.8vw;}.profile-overview .ml2-profile-head p {font-size:2.9vw;}.profile-overview .ml2-info-icon {width:9vw;height:8.5vw;flex-basis:9vw;}.profile-overview .ml2-action-block {min-height:10vw;font-size:3.5vw;}
+}
+@media(max-width:360px) {.profile-overview .ml2-profile-avatar {width:72px;height:72px;flex-basis:72px;}.profile-overview .ml2-profile-head {gap:10px;}.profile-overview .ml2-profile-head h2 {font-size:18px;}.profile-overview .ml2-profile-head p {font-size:12px;}}
+.profile-overview .ml2-profile-avatar {object-position:center;}

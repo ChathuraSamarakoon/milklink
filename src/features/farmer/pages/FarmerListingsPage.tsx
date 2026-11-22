@@ -1,7 +1,9 @@
+import './ListingBanner.css';
+import './FarmerListingsPage.css';
 import { useState } from 'react';
 import { Icon, type Nav } from '../../auth/components/AuthUI';
 import { getSession } from '../../auth/components/mockAuth';
-import { Action, BottomNav, Chip, Panel, Screen } from '../../shared/components/NextUI';
+import { Action, BottomNav, Screen } from '../../shared/components/NextUI';
 import { availableLitres, getFarmerListings, listingRange } from '../data';
 
 export default function FarmerListingsPage({ navigate }: { navigate: Nav }) {
@@ -18,6 +20,7 @@ export default function FarmerListingsPage({ navigate }: { navigate: Nav }) {
 
   return (
     <Screen
+      className="farmer-listings-page farmer-listing-banner"
       account={account}
       navigate={navigate}
       title="My Milk Listings"
@@ -31,28 +34,23 @@ export default function FarmerListingsPage({ navigate }: { navigate: Nav }) {
         <button className={tab === 'expired' ? 'active' : ''} onClick={() => setTab('expired')}>Expired ({counts.expired})</button>
       </div>
 
-      <Panel title="Listing Collection" icon="milk" action={<Action onClick={() => navigate('/farmer/listings/new')}>+ Add Listing</Action>}>
-        <div className="ml2-card-stack">
-          {filtered.map((listing) => (
-            <button key={listing.id} className="ml2-rich-card" onClick={() => navigate(`/farmer/listings/${listing.id}`)}>
-              <img src={listing.image} alt="Milk listing visual" />
-              <div className="ml2-rich-card-copy">
-                <div className="ml2-rich-card-head">
-                  <strong>{listing.id}</strong>
-                  <Chip tone={listing.status === 'active' ? 'green' : 'amber'}>{listing.status}</Chip>
-                </div>
-                <div className="ml2-rich-stats">
-                  <span><b>{listing.quantity} L</b><small>Total</small></span>
-                  <span><b>Rs. {listing.pricePerLitre}/L</b><small>Price</small></span>
-                  <span><b>{availableLitres(listing)} L</b><small>Available</small></span>
-                </div>
-                <small>{listingRange(listing)}</small>
-              </div>
-              <Icon name="chevron" size={18} />
-            </button>
-          ))}
-        </div>
-      </Panel>
+      <div className="listing-collection-heading">
+        <span className="listing-collection-title"><span className="listing-collection-icon"><Icon name="milk" size={24}/></span>Listing Collection</span>
+        <Action secondary onClick={() => navigate('/farmer/listings/new')}><span aria-hidden="true">+</span> Add Listing</Action>
+      </div>
+      <div className="listing-collection" aria-live="polite">
+        {filtered.map(listing => <button key={listing.id} className="milk-offer-card" onClick={() => navigate(`/farmer/listings/${listing.id}`)} aria-label={`View listing ${listing.id}`}>
+          <span className="milk-offer-heading"><strong>{listing.id}</strong><span className={`milk-offer-status ${listing.status}`}><span/>{listing.status === 'active' ? 'Active' : 'Expired'}</span></span>
+          <span className="milk-offer-body">
+            <span className="milk-offer-stat"><Icon name="drop"/><b>{listing.quantity} L</b><span>Total</span></span>
+            <span className="milk-offer-stat"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v4c0 4 16 4 16 0V5M4 9v4c0 4 16 4 16 0V9M4 13v4c0 4 16 4 16 0v-4"/></svg><b>Rs. {listing.pricePerLitre}/L</b><span>Price</span></span>
+            <span className="milk-offer-stat"><Icon name="milk"/><b>{availableLitres(listing)} L</b><span>Available</span></span>
+            <span className="milk-offer-open"><Icon name="chevron" size={19}/></span>
+          </span>
+          <span className="milk-offer-date"><Icon name="calendar" size={20}/>{listingRange(listing)}</span>
+        </button>)}
+        {filtered.length === 0 && <p className="milk-offer-empty">No {tab} listings yet.</p>}
+      </div>
     </Screen>
   );
 }

@@ -3,11 +3,11 @@ import { Brand, Icon, type IconName, type Nav, type Role } from '../../auth/comp
 import type { MockAccount } from '../../auth/components/mockAuth';
 import './NextUI.css';
 
-export function Screen({ account, navigate, title, subtitle, image, theme, children, eyebrow, back, footer }: {
- account:MockAccount; navigate:Nav; title:string; subtitle:string; image:string; theme?:Role|'common'; children:ReactNode; eyebrow?:string; back?:string;footer?:ReactNode;
+export function Screen({ account, navigate, title, subtitle, image, theme, children, eyebrow, back, footer, cover, className = '' }: {
+ account:MockAccount; navigate:Nav; title:string; subtitle:string; image:string; theme?:Role|'common'; children:ReactNode; eyebrow?:string; back?:string;footer?:ReactNode;cover?:ReactNode;className?:string;
 }) {
  const role=theme ?? account.role;
- return <main className={`ml2-root ml-theme-${role}`}>
+ return <main className={`ml2-root ml-theme-${role} ${className}`}>
   <div className="ml2-app">
    <header className="ml2-header">
     <button className="ml2-header-icon" aria-label="Back" onClick={()=>navigate(back ?? `/${account.role}`)}><Icon name="arrow-left" size={19}/></button>
@@ -19,7 +19,7 @@ export function Screen({ account, navigate, title, subtitle, image, theme, child
      <div className="ml2-story-overlay"><span className="ml2-story-pill">MILKLINK • FARM TO MARKET</span><h2>Better connections.<br/>Better opportunities.</h2><p>Simple, reliable dairy trading for farmers, buyers and collectors.</p></div>
     </aside>
     <div className="ml2-content">
-     <div className="ml2-mobile-cover" style={{backgroundImage:`url(${image})`}} role="img" aria-label="MilkLink dairy-themed illustration"/>
+     {cover ?? <div className="ml2-mobile-cover" style={{backgroundImage:`url(${image})`}} role="img" aria-label="MilkLink dairy-themed illustration"/>}
      <div className="ml2-content-inner">
       <div className="ml2-eyebrow">{eyebrow ?? 'YOUR MILKLINK SPACE'}</div>
       <h1>{title}</h1><p className="ml2-subtitle">{subtitle}</p>

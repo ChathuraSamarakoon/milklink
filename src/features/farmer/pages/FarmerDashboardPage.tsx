@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react';
+import './FarmerDashboardPage.css';
 import { Icon, type Nav } from '../../auth/components/AuthUI';
 import { getSession } from '../../auth/components/mockAuth';
 import { Action, BottomNav, Chip, Panel, Screen } from '../../shared/components/NextUI';
@@ -30,11 +30,16 @@ export default function FarmerDashboardPage({ navigate }: { navigate: Nav }) {
       eyebrow="FARMER • FIRST PAGE"
       footer={<BottomNav navigate={navigate} active="Home" />}
     >
-      <div className="ml2-dashboard-hero ml2-dashboard-hero-custom" style={{ '--hero-image': "url('/images/farmer-dashboard-hero.webp')" } as CSSProperties}>
-        <span className="ml2-hero-label">{profile.detail || 'My Dairy Farm'}</span>
-        <h2>Good Morning,<br />{profile.name.split(' ')[0]} 👋</h2>
-        <p>Track daily supply, manage listings and respond to buyer orders quickly.</p>
-      </div>
+      <section className="farmer-welcome" aria-label="Your farm overview">
+        <img className="farmer-welcome-image" src="/images/farmer-welcome-v2.webp" alt="Fresh milk and a milk can on a sunlit dairy farm" />
+        <div className="farmer-welcome-copy">
+          <span className="farmer-welcome-farm"><Icon name="leaf" size={12}/>{profile.detail || 'My Dairy Farm'}</span>
+          <h2>A fresh start,<br/><span>{profile.name.split(' ')[0]}.</span></h2>
+          <p>Fresh milk. New opportunities.<br/>Let?s grow your farm today.</p>
+          <button className="farmer-welcome-action" onClick={() => navigate('/farmer/listings/new')}>Add milk listing <Icon name="arrow" size={16}/></button>
+        </div>
+        <span className="farmer-welcome-seal"><Icon name="drop" size={13}/> FARM FRESH</span>
+      </section>
 
       <div className="ml2-metric-grid">
         <div className="ml2-metric"><span className="ml2-metric-icon"><Icon name="milk" /></span><strong>{activeListings.length}</strong><span>Active Listings</span></div>
