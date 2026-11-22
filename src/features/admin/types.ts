@@ -6,6 +6,27 @@ export type ListingStatus = 'active' | 'expired' | 'disabled' | 'reserved';
 
 export type TimeRangeFilter = 'today' | 'week' | 'month' | 'quarter' | 'year';
 
+export interface ListingRelatedOrder {
+  id: string;
+  buyerId: string;
+  buyerName: string;
+  buyerPhone: string;
+  requestedLitres: number;
+  totalPriceLkr: number;
+  status: 'pending' | 'accepted' | 'in-transit' | 'completed' | 'cancelled';
+  orderDate: string;
+  collectorName?: string;
+}
+
+export interface ListingAuditEntry {
+  id: string;
+  event: string;
+  performedBy: string;
+  timestamp: string;
+  details: string;
+  severity?: 'info' | 'warning' | 'critical';
+}
+
 export interface AdminMilkListing {
   id: string;
   farmerId: string;
@@ -27,6 +48,8 @@ export interface AdminMilkListing {
   disabledReason?: string;
   moderatedAt?: string;
   moderatedBy?: string;
+  relatedOrders?: ListingRelatedOrder[];
+  auditEntries?: ListingAuditEntry[];
 }
 
 export interface UserAssociatedListing {

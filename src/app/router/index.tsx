@@ -4,6 +4,7 @@ import AdminDashboardPage from '../../features/admin/pages/AdminDashboardPage';
 import AdminUsersPage from '../../features/admin/pages/AdminUsersPage';
 import AdminUserDetailPage from '../../features/admin/pages/AdminUserDetailPage';
 import AdminListingsPage from '../../features/admin/pages/AdminListingsPage';
+import AdminListingDetailPage from '../../features/admin/pages/AdminListingDetailPage';
 import AdminOrdersPage from '../../features/admin/pages/AdminOrdersPage';
 import AdminMatchesPage from '../../features/admin/pages/AdminMatchesPage';
 import AdminSyncMonitoringPage from '../../features/admin/pages/AdminSyncMonitoringPage';
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
       {
         path: 'listings',
         element: <AdminListingsPage />,
+      },
+      {
+        path: 'listings/:listingId',
+        element: <AdminListingDetailPage />,
       },
       {
         path: 'orders',

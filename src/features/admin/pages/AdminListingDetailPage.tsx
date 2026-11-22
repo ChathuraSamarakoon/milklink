@@ -17,11 +17,21 @@ import {
   ShieldAlert,
   ShoppingCart,
   User,
+  FileSearch,
+  ExternalLink,
+  ChevronRight,
 } from 'lucide-react';
 import AdminSidebar from '../components/AdminSidebar';
 import KpiStatCard from '../components/KpiStatCard';
-import { fetchAdminListingById, disableAdminListing } from '../../../services/adminApi';
-import type { AdminMilkListing } from '../types';
+import FilterPanel from '../components/FilterPanel';
+import ListingAuditPanel from '../components/ListingAuditPanel';
+import ModerationDialog from '../components/ModerationDialog';
+import {
+  fetchAdminListingById,
+  disableAdminListing,
+  addListingInvestigationNote,
+} from '../../../services/adminApi';
+import type { AdminMilkListing, TimeRangeFilter } from '../types';
 
 export const AdminListingDetailPage: React.FC = () => {
   const { listingId } = useParams<{ listingId: string }>();
@@ -29,44 +39,76 @@ export const AdminListingDetailPage: React.FC = () => {
 
   const [listing, setListing] = useState<AdminMilkListing | null>(null);
   const [loading, setLoading] = useState(true);
+  const [timeRange, setTimeRange] = useState<TimeRangeFilter>('month');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<{ text: string; variant?: 'success' | 'warning' } | null>(null);
 
-  // Disable modal
-  const [isDisableModalOpen, setIsDisableModalOpen] = useState(false);
-  const [disableReason, setDisableReason] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  // Moderation Dialog State (supports 'disable' or 'investigate' modes)
+  const [dialogState, setDialogState] = useState<{
+    isOpen: boolean;
+    mode: 'disable' | 'investigate';
+    noteText: string;
+    isSubmitting: boolean;
+  }>({
+    isOpen: false,
+    mode: 'disable',
+    noteText: '',
+    isSubmitting: false,
+  });
+
+  const loadListing = async () => {
+    if (!listingId) return;
+    setLoading(true);
+    try {
+      const found = await fetchAdminListingById(listingId);
+      if (found) setListing(found);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    async function load() {
-      if (!listingId) return;
-      setLoading(true);
-      try {
-        const found = await fetchAdminListingById(listingId);
-        if (found) setListing(found);
-      } finally {
-        setLoading(false);
-      }
-    }
-    load();
+    loadListing();
   }, [listingId]);
 
-  const handleConfirmDisable = async () => {
+  const handleOpenModeration = (mode: 'disable' | 'investigate') => {
+    setDialogState({
+      isOpen: true,
+      mode,
+      noteText: '',
+      isSubmitting: false,
+    });
+  };
+
+  const handleConfirmModeration = async () => {
     if (!listing) return;
-    setIsSubmitting(true);
+    setDialogState((prev) => ({ ...prev, isSubmitting: true }));
     try {
-      const res = await disableAdminListing(listing.id, disableReason);
-      if (res.success && res.listing) {
-        setListing(res.listing);
-        setIsDisableModalOpen(false);
-        setToastMessage({
-          text: `Listing #${listing.id} disabled under administrative moderation policy.`,
-          variant: res.warning ? 'warning' : 'success',
-        });
-        setTimeout(() => setToastMessage(null), 5000);
+      if (dialogState.mode === 'disable') {
+        const res = await disableAdminListing(listing.id, dialogState.noteText);
+        if (res.success && res.listing) {
+          setListing(res.listing);
+          setDialogState((prev) => ({ ...prev, isOpen: false, isSubmitting: false }));
+          setToastMessage({
+            text: `Listing #${listing.id} disabled under administrative moderation policy.`,
+            variant: res.warning ? 'warning' : 'success',
+          });
+          setTimeout(() => setToastMessage(null), 5000);
+        }
+      } else {
+        const res = await addListingInvestigationNote(listing.id, dialogState.noteText);
+        if (res.success && res.listing) {
+          setListing(res.listing);
+          setDialogState((prev) => ({ ...prev, isOpen: false, isSubmitting: false }));
+          setToastMessage({
+            text: `Investigation finding recorded in batch audit trail.`,
+            variant: 'success',
+          });
+          setTimeout(() => setToastMessage(null), 4000);
+        }
       }
     } finally {
-      setIsSubmitting(false);
+      setDialogState((prev) => ({ ...prev, isSubmitting: false }));
     }
   };
 
@@ -74,7 +116,7 @@ export const AdminListingDetailPage: React.FC = () => {
     return (
       <div className="admin-page-container">
         <div className="loading-state-box">
-          <p>Loading milk listing details...</p>
+          <p>Loading milk listing details &amp; reservation records...</p>
         </div>
       </div>
     );
@@ -91,19 +133,18 @@ export const AdminListingDetailPage: React.FC = () => {
             className="btn-primary"
             onClick={() => navigate('/admin/listings')}
           >
-            Back to Listings
+            Back to All Listings
           </button>
         </div>
       </div>
     );
   }
 
-  const isReasonValid = disableReason.trim().length >= 8;
   const percentReserved = Math.round((listing.reservedLitres / listing.totalLitres) * 100);
 
   return (
     <div className="admin-page-container">
-      {/* Admin Sidebar */}
+      {/* Admin Sidebar Navigation */}
       <AdminSidebar
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}
@@ -141,7 +182,7 @@ export const AdminListingDetailPage: React.FC = () => {
         </div>
       </header>
 
-      {/* Main Content Area */}
+      {/* Main Scrollable Area */}
       <main className="admin-main-content">
         {toastMessage && (
           <div
@@ -155,7 +196,7 @@ export const AdminListingDetailPage: React.FC = () => {
           </div>
         )}
 
-        {/* Breadcrumb Flow: All Listings → Listing Detail */}
+        {/* Breadcrumb Navigation Flow: Listing Detail → Listing list */}
         <section className="page-header-section">
           <div className="breadcrumbs">
             <span
@@ -176,7 +217,7 @@ export const AdminListingDetailPage: React.FC = () => {
           </div>
         </section>
 
-        {/* Hero Card for Listing */}
+        {/* 1. Hero Listing Overview Card */}
         <div className="user-detail-hero-card">
           <div className="hero-top-row">
             <div className="listing-drop-avatar-lg" aria-hidden="true">
@@ -189,55 +230,83 @@ export const AdminListingDetailPage: React.FC = () => {
                   {listing.status.toUpperCase()}
                 </span>
               </div>
-              <p className="hero-farmer-name">
-                Farmer:{' '}
+
+              {/* Flow: Listing Detail → Farmer */}
+              <div className="hero-farmer-name">
+                <span>Farmer:</span>
                 <button
                   type="button"
                   className="link-inline-btn"
                   onClick={() => navigate(`/admin/users/${listing.farmerId}`)}
-                  title="View Farmer Account Profile"
+                  title="Navigate to Farmer Account Profile"
                 >
                   <User size={13} />
                   <span>{listing.farmerName}</span>
+                  <ExternalLink size={12} />
                 </button>
-              </p>
+              </div>
             </div>
           </div>
 
-          {/* Action Row */}
+          {/* Action Row: Investigate & Disable Controls [D] */}
           <div className="hero-actions-toolbar">
             <div className="price-tag-badge">
-              <span>Unit Price:</span>
-              <strong>Rs. {listing.unitPriceLkr} / Litre</strong>
+              <span>Price:</span>
+              <strong>Rs. {listing.unitPriceLkr} / L</strong>
             </div>
 
-            {listing.status !== 'disabled' ? (
+            <div className="moderation-btn-group">
               <button
                 type="button"
-                className="btn-action-deactivate"
-                onClick={() => setIsDisableModalOpen(true)}
-                title="Disable this listing under administrative policy"
+                className="btn-toolbar-tab"
+                onClick={() => handleOpenModeration('investigate')}
+                title="Investigate batch quality and add findings"
               >
-                <Ban size={15} />
-                <span>Disable Listing [D]</span>
+                <FileSearch size={14} />
+                <span>Investigate</span>
               </button>
-            ) : (
-              <span className="disabled-notice-pill">
-                <Ban size={14} />
-                <span>Listing Disabled by Administrator</span>
-              </span>
-            )}
+
+              {listing.status !== 'disabled' ? (
+                <button
+                  type="button"
+                  className="btn-action-deactivate"
+                  onClick={() => handleOpenModeration('disable')}
+                  title="Disable listing under approved policy"
+                >
+                  <Ban size={14} />
+                  <span>Disable [D]</span>
+                </button>
+              ) : (
+                <span className="disabled-notice-pill">
+                  <Ban size={13} />
+                  <span>Disabled by Admin</span>
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Stock Volume KPIs */}
-        <section className="users-kpi-summary-grid" aria-label="Listing volume breakdown">
+        {/* 2. Privacy-Aware Location Notice */}
+        <div className="admin-privacy-callout">
+          <ShieldAlert size={18} className="privacy-shield-icon" />
+          <div className="privacy-callout-text">
+            <strong>Privacy-Aware Location Safeguard:</strong>
+            <p>
+              In accordance with MilkLink smallholder privacy safeguards, exact farmstead coordinates
+              are masked from platform administration screens. The listing displays the administrative division (
+              <em>{listing.division}, {listing.district}</em>) only.
+            </p>
+          </div>
+        </div>
+
+        {/* 3. Stock Volume Breakdown KPIs using KpiStatCard */}
+        <section className="users-kpi-summary-grid" aria-label="Stock volume breakdown">
           <KpiStatCard
             icon={<Milk size={22} />}
             iconBgColor="#eff6ff"
             iconColor="#2563eb"
             value={`${listing.totalLitres} L`}
-            label="Total Quantity"
+            label="Total Batch Volume"
             sublabel="Offered by smallholder"
           />
           <KpiStatCard
@@ -246,27 +315,35 @@ export const AdminListingDetailPage: React.FC = () => {
             iconColor="#10b981"
             value={`${listing.availableLitres} L`}
             label="Available Litres"
-            sublabel="Unreserved capacity"
+            sublabel="Open for reservations"
           />
           <KpiStatCard
             icon={<Lock size={22} />}
             iconBgColor="#fffbeb"
             iconColor="#b45309"
             value={`${listing.reservedLitres} L`}
-            label="Reserved Litres"
+            label="Reserved Stock"
             sublabel={`${percentReserved}% locked in orders`}
           />
         </section>
 
-        {/* Stock Reservation Progress & Protection Rule */}
+        {/* Timeframe Filter Panel */}
+        <FilterPanel
+          selectedRange={timeRange}
+          onRangeChange={(range) => setTimeRange(range)}
+          onRefresh={loadListing}
+          isRefreshing={loading}
+        />
+
+        {/* 4. Reservation Summary & Policy Rule Box */}
         <div className="profile-card">
           <div className="profile-card-header">
             <Lock size={16} />
-            <h3>Stock Reservation Status</h3>
+            <h3>Reservation Summary &amp; Protection Rule</h3>
           </div>
           <div className="profile-card-body">
             <div className="detail-field">
-              <span className="field-name">Reservation Progress ({percentReserved}%)</span>
+              <span className="field-name">Reserved Capacity ({percentReserved}%)</span>
               <div className="reserve-progress-bar-lg">
                 <div
                   className="reserve-progress-fill"
@@ -279,11 +356,11 @@ export const AdminListingDetailPage: React.FC = () => {
               <div className="reservation-warning-box">
                 <ShieldAlert size={18} className="warn-icon" />
                 <div className="warn-text">
-                  <strong>Active Stock Reservation Notice:</strong>
+                  <strong>Stock Reservation Constraint:</strong>
                   <p>
-                    <strong>{listing.reservedLitres} Litres</strong> of this batch are actively reserved by registered buyers.
-                    In compliance with platform policy: <em>administrative moderation must never bypass existing stock reservations</em>.
-                    Any cancellation must follow mutual buyer-farmer dispute protocols.
+                    <strong>{listing.reservedLitres} Litres</strong> of this batch are actively locked in buyer orders.
+                    Administrative moderation cannot bypass existing buyer reservations. Disabling this listing
+                    only prevents <em>new</em> reservations from being created; existing orders proceed normally.
                   </p>
                 </div>
               </div>
@@ -291,19 +368,85 @@ export const AdminListingDetailPage: React.FC = () => {
               <div className="compliance-policy-box">
                 <ShieldCheck size={16} className="policy-icon" />
                 <div className="policy-text">
-                  <strong>Open Stock:</strong>
-                  <p>This batch has no active reservations and is fully available to nearby buyers via rule-based matching.</p>
+                  <strong>Open Capacity:</strong>
+                  <p>
+                    No buyer reservations currently locked. Editing and disabling rights remain optional policy-driven controls.
+                  </p>
                 </div>
               </div>
             )}
           </div>
         </div>
 
-        {/* Listing Specifications Box */}
+        {/* 5. Flow: Listing Detail → Related Orders */}
+        <div className="associated-section">
+          <div className="associated-header-row">
+            <div className="title-with-badge">
+              <ShoppingCart size={18} className="text-blue" />
+              <h3 className="associated-title">Related Buyer Orders</h3>
+              <span className="count-pill">{listing.relatedOrders?.length || 0}</span>
+            </div>
+            <button
+              type="button"
+              className="card-text-link"
+              onClick={() => navigate(`/admin/orders?listingId=${listing.id}`)}
+              title="Navigate to Orders module"
+            >
+              <span>View in Orders Module</span>
+              <ExternalLink size={13} />
+            </button>
+          </div>
+
+          {(!listing.relatedOrders || listing.relatedOrders.length === 0) ? (
+            <div className="associated-empty-box">
+              <p>No buyer orders placed against this listing yet.</p>
+            </div>
+          ) : (
+            <div className="associated-cards-list">
+              {listing.relatedOrders.map((ord) => (
+                <div
+                  key={ord.id}
+                  className="associated-item-card"
+                  onClick={() => navigate('/admin/orders')}
+                >
+                  <div className="item-card-left">
+                    <div className="item-id-row">
+                      <span className="item-id">Order #{ord.id}</span>
+                      <span className={`status-badge status-${ord.status === 'accepted' ? 'active' : 'pending'}`}>
+                        {ord.status.toUpperCase()}
+                      </span>
+                    </div>
+                    <div className="item-sub-row">
+                      <span>Buyer: <strong>{ord.buyerName}</strong></span>
+                      <span>{ord.buyerPhone}</span>
+                    </div>
+                    {ord.collectorName && (
+                      <span className="item-collector-sub">
+                        Collector: {ord.collectorName}
+                      </span>
+                    )}
+                    <span className="item-date-text">{ord.orderDate}</span>
+                  </div>
+
+                  <div className="item-card-right">
+                    <span className="item-quantity-val">{ord.requestedLitres} L</span>
+                    <span className="item-price-val">Rs. {ord.totalPriceLkr.toLocaleString()}</span>
+                    <span className="click-inspect-sub">
+                      <span>Inspect</span>
+                      <ChevronRight size={13} />
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* 6. Listing Specifications & Privacy Location */}
         <div className="profile-card">
           <div className="profile-card-header">
             <Clock size={16} />
-            <h3>Listing Specifications &amp; Dates</h3>
+            <h3>Batch Quality Specifications</h3>
           </div>
           <div className="profile-card-body">
             <div className="detail-field">
@@ -321,7 +464,7 @@ export const AdminListingDetailPage: React.FC = () => {
             )}
 
             <div className="detail-field">
-              <span className="field-name">Available From Date &amp; Time</span>
+              <span className="field-name">Available From</span>
               <span className="field-val">
                 <Calendar size={13} className="val-icon" />
                 {listing.availableFrom}
@@ -329,7 +472,7 @@ export const AdminListingDetailPage: React.FC = () => {
             </div>
 
             <div className="detail-field">
-              <span className="field-name">Collection Cutoff / Expiry Date</span>
+              <span className="field-name">Collection Cutoff / Expiry</span>
               <span className="field-val text-warning">
                 <Clock size={13} className="val-icon" />
                 {listing.availableTo}
@@ -337,7 +480,7 @@ export const AdminListingDetailPage: React.FC = () => {
             </div>
 
             <div className="detail-field">
-              <span className="field-name">Protected Division Location</span>
+              <span className="field-name">Privacy-Protected Location</span>
               <span className="field-val">
                 <MapPin size={13} className="val-icon" />
                 {listing.division}, {listing.district} (Approximate area)
@@ -359,74 +502,28 @@ export const AdminListingDetailPage: React.FC = () => {
             )}
           </div>
         </div>
+
+        {/* 7. Reusable ListingAuditPanel (Lifecycle & Batch Audit Trail) */}
+        <ListingAuditPanel
+          entries={listing.auditEntries || []}
+          listingId={listing.id}
+          onInvestigateClick={() => handleOpenModeration('investigate')}
+        />
       </main>
 
-      {/* Disable Modal with Policy Check */}
-      {isDisableModalOpen && (
-        <div className="modal-backdrop" role="dialog" aria-modal="true">
-          <div className="modal-card">
-            <div className="modal-header">
-              <div className="modal-icon-badge sev-bg-critical">
-                <AlertTriangle size={24} className="text-danger" />
-              </div>
-              <div>
-                <h3 className="modal-title">Disable Milk Listing #{listing.id}</h3>
-                <p className="modal-subtitle">
-                  Requires approved administrative moderation policy
-                </p>
-              </div>
-            </div>
-
-            <div className="modal-body">
-              {listing.reservedLitres > 0 && (
-                <div className="reservation-warning-box">
-                  <ShieldAlert size={18} className="warn-icon" />
-                  <div className="warn-text">
-                    <strong>Reservation Protection Constraint:</strong>
-                    <p>
-                      <strong>{listing.reservedLitres} L</strong> is already committed. Disabling will prevent new buyers
-                      from reserving remaining litres, while current orders will proceed as scheduled.
-                    </p>
-                  </div>
-                </div>
-              )}
-
-              <div className="audit-reason-field">
-                <label htmlFor="detail-disable-reason" className="field-label">
-                  Policy Justification Reason (Required min 8 chars):
-                </label>
-                <textarea
-                  id="detail-disable-reason"
-                  className="audit-textarea"
-                  rows={3}
-                  placeholder="State the reason for removing this listing from the public marketplace..."
-                  value={disableReason}
-                  onChange={(e) => setDisableReason(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="modal-actions">
-              <button
-                type="button"
-                className="modal-cancel-btn"
-                onClick={() => setIsDisableModalOpen(false)}
-                disabled={isSubmitting}
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                className="modal-confirm-btn btn-danger"
-                onClick={handleConfirmDisable}
-                disabled={isSubmitting || !isReasonValid}
-              >
-                {isSubmitting ? 'Disabling...' : 'Confirm Disable Listing [D]'}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* 8. Reusable ModerationDialog (Investigate / Disable [D]) */}
+      <ModerationDialog
+        isOpen={dialogState.isOpen}
+        mode={dialogState.mode}
+        listing={listing}
+        noteText={dialogState.noteText}
+        onNoteChange={(val) =>
+          setDialogState((prev) => ({ ...prev, noteText: val }))
+        }
+        onConfirm={handleConfirmModeration}
+        onCancel={() => setDialogState((prev) => ({ ...prev, isOpen: false }))}
+        isSubmitting={dialogState.isSubmitting}
+      />
     </div>
   );
 };

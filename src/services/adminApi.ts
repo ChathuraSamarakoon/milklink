@@ -110,6 +110,45 @@ export const MOCK_ADMIN_LISTINGS: AdminMilkListing[] = [
     milkingSession: 'morning',
     activeReservationCount: 1,
     notes: 'Morning milking batch. Cooled at 4°C immediately after milking.',
+    relatedOrders: [
+      {
+        id: 'ord-501',
+        buyerId: 'usr-002',
+        buyerName: 'Kavindu Silva',
+        buyerPhone: '+94 71 987 6543',
+        requestedLitres: 28.0,
+        totalPriceLkr: 5880,
+        status: 'accepted',
+        orderDate: 'Today, 07:15 AM',
+        collectorName: 'Sampath Kumara',
+      },
+    ],
+    auditEntries: [
+      {
+        id: 'ent-101-1',
+        event: 'Milk Batch Created & Published',
+        performedBy: 'Nimal Perera (Farmer via PWA Outbox)',
+        timestamp: '2025-01-21 06:30:12',
+        details: 'Initial quantity 45.0 L logged. Morning milking temperature 4.1°C.',
+        severity: 'info',
+      },
+      {
+        id: 'ent-101-2',
+        event: 'Stock Reservation Locked',
+        performedBy: 'MilkLink Matching Engine (Atomic lock)',
+        timestamp: '2025-01-21 07:15:40',
+        details: '28.0 L atomically reserved for Order #ord-501 (Buyer: Kavindu Silva). Unreserved stock: 17.0 L.',
+        severity: 'info',
+      },
+      {
+        id: 'ent-101-3',
+        event: 'Collector Route Dispatched',
+        performedBy: 'System Logistics Coordinator',
+        timestamp: '2025-01-21 07:30:00',
+        details: 'Registered collector Sampath Kumara assigned to pickup. Farm collection time estimated 07:30 AM.',
+        severity: 'info',
+      },
+    ],
   },
   {
     id: 'lst-102',
@@ -129,6 +168,29 @@ export const MOCK_ADMIN_LISTINGS: AdminMilkListing[] = [
     milkingSession: 'morning',
     activeReservationCount: 1,
     notes: '100% reserved by Kasun Rajapaksha. Awaiting collector dispatch.',
+    relatedOrders: [
+      {
+        id: 'ord-502',
+        buyerId: 'usr-006',
+        buyerName: 'Kasun Rajapaksha',
+        buyerPhone: '+94 70 888 2311',
+        requestedLitres: 32.5,
+        totalPriceLkr: 6987.5,
+        status: 'in-transit',
+        orderDate: 'Today, 08:15 AM',
+        collectorName: 'Sampath Kumara',
+      },
+    ],
+    auditEntries: [
+      {
+        id: 'ent-102-1',
+        event: 'Full Batch Reserved',
+        performedBy: 'Buyer Kasun Rajapaksha',
+        timestamp: '2025-01-21 07:10:00',
+        details: 'All 32.5 L reserved. Listing marked 100% Reserved.',
+        severity: 'info',
+      },
+    ],
   },
   {
     id: 'lst-103',
@@ -148,6 +210,17 @@ export const MOCK_ADMIN_LISTINGS: AdminMilkListing[] = [
     milkingSession: 'morning',
     activeReservationCount: 0,
     notes: 'Pure Jersey cattle milk. Available for advance order reservation.',
+    relatedOrders: [],
+    auditEntries: [
+      {
+        id: 'ent-103-1',
+        event: 'Listing Scheduled for Tomorrow',
+        performedBy: 'Priyantha Dissanayake',
+        timestamp: 'Today, 08:00',
+        details: 'Advance batch announcement for tomorrow morning collection.',
+        severity: 'info',
+      },
+    ],
   },
   {
     id: 'lst-104',
@@ -167,6 +240,17 @@ export const MOCK_ADMIN_LISTINGS: AdminMilkListing[] = [
     milkingSession: 'morning',
     activeReservationCount: 0,
     notes: 'Listing expired past 18:00 cutoff without buyer reservation.',
+    relatedOrders: [],
+    auditEntries: [
+      {
+        id: 'ent-104-1',
+        event: 'Automated Cutoff Expiry',
+        performedBy: 'System Expiry Engine',
+        timestamp: '2025-01-20 18:00:01',
+        details: 'Listing expired automatically as collection window elapsed without buyer booking.',
+        severity: 'warning',
+      },
+    ],
   },
   {
     id: 'lst-105',
@@ -188,6 +272,17 @@ export const MOCK_ADMIN_LISTINGS: AdminMilkListing[] = [
     disabledReason: 'Administrative moderation: Pending telephone verification of herd inspection certificate.',
     moderatedAt: '2025-01-21 08:30',
     moderatedBy: 'System Administrator',
+    relatedOrders: [],
+    auditEntries: [
+      {
+        id: 'ent-105-1',
+        event: 'Administrative Moderation [D]',
+        performedBy: 'System Administrator',
+        timestamp: '2025-01-21 08:30:00',
+        details: 'Listing disabled: Pending telephone verification of herd inspection certificate.',
+        severity: 'critical',
+      },
+    ],
   },
   {
     id: 'lst-106',
@@ -206,6 +301,8 @@ export const MOCK_ADMIN_LISTINGS: AdminMilkListing[] = [
     fatContentPercent: 4.3,
     milkingSession: 'morning',
     activeReservationCount: 1,
+    relatedOrders: [],
+    auditEntries: [],
   },
 ];
 
@@ -429,12 +526,22 @@ export async function disableAdminListing(
         const current = MOCK_ADMIN_LISTINGS[idx];
         const hasActiveReservations = current.reservedLitres > 0;
 
+        const newAuditEntry = {
+          id: `ent-${Date.now()}`,
+          event: 'Administrative Moderation [D]',
+          performedBy: 'System Administrator',
+          timestamp: new Date().toISOString().replace('T', ' ').substring(0, 16),
+          details: `Listing disabled by policy. Justification: ${reason}`,
+          severity: 'critical' as const,
+        };
+
         MOCK_ADMIN_LISTINGS[idx] = {
           ...current,
           status: 'disabled',
           disabledReason: reason,
           moderatedAt: new Date().toISOString().replace('T', ' ').substring(0, 16),
           moderatedBy: 'System Administrator',
+          auditEntries: [newAuditEntry, ...(current.auditEntries || [])],
         };
 
         resolve({
@@ -444,6 +551,37 @@ export async function disableAdminListing(
             ? `Note: Listing had ${current.reservedLitres} L reserved by buyers. Existing reservations remain valid and must be fulfilled or cancelled by the parties.`
             : undefined,
         });
+      } else {
+        resolve({ success: false });
+      }
+    }, 150);
+  });
+}
+
+export async function addListingInvestigationNote(
+  id: string,
+  findings: string
+): Promise<{ success: boolean; listing?: AdminMilkListing }> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const idx = MOCK_ADMIN_LISTINGS.findIndex((l) => l.id === id);
+      if (idx !== -1) {
+        const current = MOCK_ADMIN_LISTINGS[idx];
+        const newEntry = {
+          id: `ent-inv-${Date.now()}`,
+          event: 'Administrative Batch Investigation',
+          performedBy: 'System Administrator',
+          timestamp: new Date().toISOString().replace('T', ' ').substring(0, 16),
+          details: findings,
+          severity: 'info' as const,
+        };
+
+        MOCK_ADMIN_LISTINGS[idx] = {
+          ...current,
+          auditEntries: [newEntry, ...(current.auditEntries || [])],
+        };
+
+        resolve({ success: true, listing: MOCK_ADMIN_LISTINGS[idx] });
       } else {
         resolve({ success: false });
       }
