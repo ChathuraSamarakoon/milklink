@@ -17,6 +17,7 @@ export default function AddMilkListingPage({ navigate }: { navigate: Nav }) {
 
   function submit(event: FormEvent) {
     event.preventDefault();
+    if (!account) return;
     const quantityValue = Number(quantity);
     const priceValue = Number(pricePerLitre);
     if (!(quantityValue > 0) || !(priceValue > 0) || !startDate || !endDate || endDate < startDate) {
