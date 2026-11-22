@@ -1,0 +1,76 @@
+.ml-welcome {height:100dvh;min-height:0;background:#fff;}
+.ml-welcome .ml-welcome-layout {height:100%;min-height:0;display:flex;flex-direction:column;background:#fff;}
+.ml-welcome-header {flex:0 0 auto;min-height:66px;height:8dvh;padding:12px 6%;gap:12px;}
+.ml-welcome-header .ml-brand {font-size:clamp(25px,3.1dvh,43px);color:#061d38;gap:12px;}
+.ml-welcome-header .ml-brand-symbol {color:#148300;}
+.ml-welcome-header .ml-brand-symbol svg {width:clamp(30px,4dvh,55px);height:clamp(36px,4.7dvh,65px);}
+.ml-welcome-header .ml-brand-name > span {color:#148300;}
+.ml-welcome-header .ml-brand-name small {font-size:clamp(7px,1dvh,13px);letter-spacing:2px;margin-top:7px;color:#54637d;}
+.ml-welcome .ml-live-chip {font-size:clamp(9px,1.5dvh,20px);padding:9px 14px;color:#0c4c1b;background:linear-gradient(120deg,#f0faf0,#dff5e3);gap:8px;white-space:nowrap;}
+.ml-welcome .ml-live-chip span {width:9px;height:9px;background:linear-gradient(#62d20b,#209900);}
+.ml-welcome .ml-welcome-hero {flex:1 1 0;min-height:0;overflow:hidden;}
+.ml-welcome .ml-welcome-art {background-position:53% 65%;}
+.ml-welcome .ml-welcome-art-shade {background:linear-gradient(180deg,#e9f8ffed 0%,#eaf8ffad 35%,transparent 65%);}
+.ml-welcome .ml-welcome-text {max-width:780px;padding:clamp(16px,3dvh,42px) 7% 0;color:#001a35;}
+.ml-welcome .ml-kicker {font-size:clamp(10px,1.5dvh,21px);letter-spacing:2px;color:#177c04;gap:10px;}
+.ml-welcome .ml-kicker svg {width:clamp(18px,2.4dvh,32px);height:clamp(18px,2.4dvh,32px);}
+.ml-welcome .ml-welcome-text h1 {font-size:clamp(30px,4.35dvh,64px);max-width:690px;line-height:1.06;letter-spacing:-1.4px;margin:clamp(12px,2.2dvh,30px) 0 clamp(14px,2dvh,28px);font-weight:950;position:relative;}
+.ml-welcome .ml-welcome-text h1 em {color:#148900;}
+.ml-welcome .ml-welcome-text h1::after {content:'';display:block;width:36%;height:9px;border-top:4px solid #65ba13;border-radius:50%;margin-top:10px;transform:rotate(-2deg);}
+.ml-welcome .ml-welcome-text p {font-size:clamp(12px,1.8dvh,25px);max-width:540px;line-height:1.28;color:#465772;}
+.ml-welcome-wave {position:absolute;bottom:-1px;left:0;width:100%;height:clamp(35px,7dvh,100px);}
+.ml-welcome .ml-welcome-bottom {position:relative;flex:0 0 auto;display:block;padding:clamp(10px,1.8dvh,25px) 6% clamp(30px,5.8dvh,80px);background:#fff;text-align:center;}
+.ml-welcome .ml-benefits {flex-wrap:nowrap;justify-content:center;gap:clamp(6px,1.4vw,18px);}
+.ml-welcome .ml-benefits span {justify-content:center;font-size:clamp(9px,1.5dvh,21px);padding:clamp(7px,1.3dvh,17px) clamp(8px,2vw,27px);gap:8px;white-space:nowrap;color:#0b3632;background:linear-gradient(120deg,#f0faf3,#dcf4df);box-shadow:0 10px 22px #2c845c0b;}
+.ml-welcome .ml-benefits svg {width:clamp(17px,2.7dvh,38px);height:clamp(17px,2.7dvh,38px);color:#168900;flex-shrink:0;}
+.ml-welcome .ml-dots {margin:clamp(12px,2.4dvh,33px) 0;gap:10px;}
+.ml-welcome .ml-dots span {height:clamp(7px,1.1dvh,15px);width:clamp(7px,1.1dvh,15px);background:#c9e9d3;}
+.ml-welcome .ml-dots .active {width:clamp(26px,3.6dvh,50px);background:linear-gradient(90deg,#13a13d,#53b62c);}
+.ml-welcome .ml-welcome-bottom .ml-button {max-width:900px;margin:0 auto;min-height:clamp(48px,6.7dvh,94px);border-radius:99px;font-size:clamp(23px,3dvh,42px);background:linear-gradient(115deg,#00984d,#007a2d 35%,#57cd06);box-shadow:0 15px 25px #00954430;}
+.ml-welcome .ml-button svg {width:clamp(24px,3.3dvh,46px);height:clamp(24px,3.3dvh,46px);}
+.ml-welcome .ml-switch-auth {font-size:clamp(13px,1.95dvh,27px);margin-top:clamp(14px,2.5dvh,35px);color:#58677e;}
+.ml-welcome .ml-switch-auth button {color:#148100;}
+.ml-welcome .ml-demo-note {font-size:clamp(9px,1.4dvh,19px);margin-top:clamp(16px,2.7dvh,38px);color:#5e6b83;}
+.ml-welcome .ml-demo-note svg {width:clamp(15px,1.9dvh,26px);height:clamp(15px,1.9dvh,26px);}
+.ml-welcome-bottom::after {content:'';position:absolute;bottom:0;left:0;width:100%;height:clamp(22px,5dvh,70px);background:linear-gradient(10deg,#2da823,#90df39);clip-path:polygon(0 5%,8% 20%,25% 70%,40% 95%,55% 100%,78% 50%,95% 13%,100% 10%,100% 100%,0 100%);}
+@media(min-aspect-ratio:1/1) {
+ .ml-welcome .ml-welcome-text {max-width:850px;}
+ .ml-welcome .ml-welcome-text h1 {max-width:720px;}
+ .ml-welcome .ml-welcome-art {background-position:center 57%;}
+ .ml-welcome .ml-welcome-art-shade {background:linear-gradient(90deg,#e9f8fff0,transparent 80%);}
+}
+@media(max-width:360px) {.ml-welcome-header {padding-left:14px;padding-right:14px;gap:6px;}.ml-welcome .ml-live-chip {padding:7px;font-size:8px;}.ml-welcome .ml-benefits span {gap:4px;padding-left:6px;padding-right:6px;font-size:8px;}}
+/* Mobile proportions follow the supplied 940 × 1672 reference. */
+@media(max-width:899px) {
+ .ml-welcome .ml-welcome-layout {display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:7.7% 59.5% 32.8%;height:100dvh;overflow:hidden;}
+ .ml-welcome-header {height:100%;min-height:0;padding:0 5.5%;gap:8px;}
+ .ml-welcome-header .ml-brand {font-size:min(5.1vw,2.9dvh);gap:2.4vw;letter-spacing:-.7px;}
+ .ml-welcome-header .ml-brand-symbol svg {width:min(6vw,3.4dvh);height:min(7.1vw,4dvh);}
+ .ml-welcome-header .ml-brand-name small {font-size:min(1.8vw,1dvh);letter-spacing:1.5px;margin-top:5px;}
+ .ml-welcome .ml-live-chip {font-size:min(2.5vw,1.41dvh);padding:1.4vw 2.3vw;gap:5px;}
+ .ml-welcome .ml-live-chip span {width:7px;height:7px;}
+ .ml-welcome .ml-welcome-hero {grid-row:2;grid-column:1;min-height:0;}
+ .ml-welcome .ml-welcome-art {background-size:cover;background-position:center;}
+ .ml-welcome .ml-welcome-art-shade {background:linear-gradient(90deg,#edf8ff35,transparent 75%);}
+ .ml-welcome .ml-welcome-text {padding:4.8vw 7.5% 0;max-width:none;}
+ .ml-welcome .ml-kicker {font-size:min(2.5vw,1.41dvh);letter-spacing:1.7px;gap:8px;}
+ .ml-welcome .ml-kicker svg {width:min(3.5vw,2dvh);height:min(3.5vw,2dvh);}
+ .ml-welcome .ml-welcome-text h1 {font-size:min(7.5vw,4.22dvh);line-height:1.02;letter-spacing:-1px;max-width:86%;margin:3.9vw 0 1.4vw;}
+ .ml-welcome .ml-welcome-text h1::after {width:40%;height:8px;border-top-width:3px;margin-top:1.8vw;}
+ .ml-welcome .ml-welcome-text p {font-size:min(3vw,1.69dvh);line-height:1.23;max-width:68%;color:#465772;}
+ .ml-welcome-wave {height:8vw;}
+ .ml-welcome .ml-welcome-bottom {grid-row:3;grid-column:1;display:flex;flex-direction:column;justify-content:flex-start;padding:1.8% 5% 0;min-height:0;}
+ .ml-welcome .ml-benefits {gap:1.6vw;width:100%;}
+ .ml-welcome .ml-benefits span {font-size:min(2.5vw,1.41dvh);padding:1.5vw 2vw;gap:1.1vw;flex:1;}
+ .ml-welcome .ml-benefits svg {width:min(4.5vw,2.53dvh);height:min(4.5vw,2.53dvh);}
+ .ml-welcome .ml-dots {margin:4.3vw 0 4.1vw;gap:1.5vw;}
+ .ml-welcome .ml-dots span {width:2vw;height:2vw;max-height:1.12dvh;}
+ .ml-welcome .ml-dots .active {width:6.2vw;}
+ .ml-welcome .ml-welcome-bottom .ml-button {width:97%;min-height:0;height:6.7dvh;flex-shrink:0;font-size:min(4.8vw,2.7dvh);border-radius:4.5vw;box-shadow:0 12px 22px #00954430;}
+ .ml-welcome .ml-button svg {width:4.8vw;height:4.8vw;}
+ .ml-welcome .ml-switch-auth {font-size:min(3.35vw,1.88dvh);margin:3.6vw 0 0;}
+ .ml-welcome .ml-demo-note {font-size:min(2.45vw,1.38dvh);margin:4.8vw 0 0;gap:1.5vw;white-space:nowrap;}
+ .ml-welcome .ml-demo-note svg {width:3.3vw;height:3.3vw;}
+ .ml-welcome-bottom::after {height:5.3dvh;pointer-events:none;}
+}
+@media(max-width:899px) {.ml-welcome .ml-welcome-art {background-image:url('/images/welcome-mobile-v2.webp');}}

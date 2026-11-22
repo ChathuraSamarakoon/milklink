@@ -50,3 +50,101 @@
 @media (min-width: 721px) { body { padding: 24px 0; background: radial-gradient(ellipse at top, #f3fbfa, #d4eeeb); } .login-page { border-radius: 22px; box-shadow: 0 14px 80px #00494116; } }
 @media (max-width: 420px) { .input-field { height: 13cqw; } .input-field input { font-size: 4cqw; } .role-option { min-height: 58px; font-size: 3.5cqw; } .text-button { font-size: 3.7cqw; } .role-fieldset legend { font-size: 4cqw; } .login-button { min-height: 52px; } .create-button { min-height: 46px; font-size: 4.2cqw; } .login-footer p { font-size: 2.65cqw; } }
 @media (prefers-reduced-motion: reduce) { .role-option { transition: none; } }
+/* Login reference layout. Scoped to preserve the other screens. */
+.ml-login-page {background:#e6f7fb;--ml-ink:#061b49;--ml-accent:#0064d9;--ml-accent-pale:#e0f2ff;color:var(--ml-ink);}
+.ml-login-page .ml-mobile-container {display:block;position:relative;isolation:isolate;padding-bottom:44px;background:linear-gradient(180deg,transparent 18%,#e4f7f8 68%,#e1f4ff);}
+.ml-login-page .ml-screen-header {height:100px;padding:0 5%;gap:24px;background:#fff;}
+.ml-login-page .ml-brand {color:#084aab;font-size:38px;letter-spacing:-1.3px;gap:14px;}
+.ml-login-page .ml-brand-name > span {color:#299c06;}
+.ml-login-page .ml-brand-name small {font-size:12px;letter-spacing:3px;color:#626975;margin-top:10px;}
+.ml-login-page .ml-brand-symbol {color:#0657ba;}
+.ml-login-page .ml-brand-symbol svg {width:55px;height:65px;}
+.ml-login-page .ml-brand-symbol svg path:last-child {stroke:#2a9b08;stroke-width:4;}
+.ml-login-page .ml-back {color:#064b9d;margin:0;}
+.ml-login-page .ml-back svg {width:30px;height:30px;}
+.ml-login-page .ml-header-seal {width:58px;height:58px;background:#dff0ff;color:#0084ff;}
+.ml-login-page .ml-header-seal svg {width:30px;height:30px;}
+.ml-login-page .ml-visual-strip {height:330px!important;min-height:0;background-position:center 44%;}
+.ml-login-page .ml-login-sheet {position:relative;z-index:1;width:calc(100% - 48px);max-width:920px;margin:-75px auto 30px;padding:28px 44px 36px;border-radius:38px;background:linear-gradient(120deg,#fffffffa,#f8fcfffa);box-shadow:0 18px 35px #185b7b22;min-height:0;}
+.ml-login-page .ml-section-eyebrow {font-size:19px;letter-spacing:0;padding:10px 23px;gap:12px;}
+.ml-login-page .ml-section-eyebrow svg {width:27px;height:27px;}
+.ml-login-page h1 {font-size:clamp(30px,5.8vw,54px);font-weight:950;letter-spacing:-1.6px;line-height:1.2;margin:18px 0 12px;}
+.ml-login-wordmark {position:relative;display:inline-block;color:#0055bc;white-space:nowrap;}
+.ml-login-wordmark > span {color:#148500;}
+.ml-login-wordmark::after {content:'';position:absolute;left:14%;right:6%;bottom:-6px;height:8px;border-top:4px solid #62bd12;border-radius:50%;transform:rotate(-2deg);}
+.ml-login-page .ml-lead {font-size:clamp(14px,2.5vw,23px);color:#5c6068;margin-bottom:30px;}
+.ml-login-page .ml-form {gap:19px;}
+.ml-login-page .ml-field {gap:8px;}
+.ml-login-page .ml-field-label {font-size:21px;color:#071c49;}
+.ml-login-page .ml-field-shell {min-height:66px;padding:0 22px;gap:20px;border:1.5px solid #bbcee4;border-radius:17px;background:#f5f9fd;box-shadow:0 8px 20px #234d7510;}
+.ml-login-page .ml-field-shell > svg {width:28px;height:28px;flex-shrink:0;color:#64809e;}
+.ml-login-page .ml-field-shell input {font-size:22px;padding:16px 0;}
+.ml-login-page .ml-field-shell input::placeholder {color:#8591a2;}
+.ml-login-page .ml-eye-btn svg {width:28px;height:28px;}
+.ml-login-page .ml-muted-hint {font-size:14px;color:#637093;text-align:right;}
+.ml-login-page .ml-form .ml-button {margin-top:9px;min-height:76px;border-radius:99px;font-size:30px;background:linear-gradient(115deg,#00af69,#008d35 48%,#65d20c);box-shadow:0 13px 25px #00a26730;}
+.ml-login-page .ml-form .ml-button svg {width:34px;height:34px;}
+.ml-login-page .ml-or {margin:31px 0 25px;font-size:17px;letter-spacing:2px;color:#536e91;gap:20px;}
+.ml-login-page .ml-or span {background:#cbd9e7;}
+.ml-login-page .ml-demo-grid {gap:12px;}
+.ml-login-page .ml-demo-account {position:relative;overflow:hidden;min-height:130px;border-radius:27px;font-size:21px;gap:8px;border:2px solid #fff;box-shadow:0 8px 16px #16466a0c;}
+.ml-login-page .ml-demo-account svg {width:48px;height:48px;}
+.ml-login-page .ml-demo-account::after {content:'';position:absolute;height:25px;bottom:-9px;left:-10%;width:120%;border-radius:50%;background:currentColor;opacity:.16;transform:rotate(-4deg);}
+.ml-login-page .ml-demo-account--farmer {background:linear-gradient(130deg,#e3f9ce,#f4ffe7);color:#148600;}
+.ml-login-page .ml-demo-account--buyer {background:linear-gradient(130deg,#d6f0ff,#e6f6ff);color:#0057bb;}
+.ml-login-page .ml-demo-account--collector {background:linear-gradient(130deg,#f1e3ff,#faf0ff);color:#7723bf;}
+.ml-login-page .ml-demo-account--admin {background:linear-gradient(130deg,#fff5e4,#fff9ee);color:#064895;}
+.ml-login-page .ml-demo-hint {font-size:18px;margin:18px 0 30px;color:#606775;}
+.ml-login-page .ml-demo-hint code {font-family:inherit;color:#06458e;}
+.ml-login-page .ml-switch-auth {font-size:22px;color:#616772;margin:0;}
+.ml-login-page .ml-switch-auth button {display:inline-flex;align-items:center;gap:10px;color:#0067db;}
+.ml-login-page .ml-demo-note {font-size:16px;margin-top:30px;color:#62738c;}
+.ml-login-page .ml-demo-note svg {width:23px;height:23px;}
+.ml-login-page .ml-mobile-container::after {content:'';position:absolute;z-index:-1;bottom:0;left:0;width:100%;height:65px;background:linear-gradient(15deg,#70c937,#b5e785);clip-path:polygon(0 24%,8% 16%,20% 44%,38% 80%,55% 100%,76% 48%,93% 22%,100% 26%,100% 100%,0 100%);}
+@media(min-width:1100px) {.ml-login-page .ml-visual-strip {height:360px!important;background-position:center 48%;}.ml-login-page .ml-login-sheet {margin-top:-100px;}}
+@media(max-width:600px) {
+.ml-login-page .ml-screen-header {height:76px;gap:16px;padding:0 20px;}
+.ml-login-page .ml-brand {font-size:27px;gap:8px;}.ml-login-page .ml-brand-name small {font-size:8px;letter-spacing:1.8px;margin-top:7px;}.ml-login-page .ml-brand-symbol svg {width:37px;height:46px;}
+.ml-login-page .ml-header-seal {width:40px;height:40px;}.ml-login-page .ml-header-seal svg {width:23px;height:23px;}
+.ml-login-page .ml-visual-strip {height:210px!important;}.ml-login-page .ml-login-sheet {width:calc(100% - 24px);margin-top:-40px;padding:22px 20px 27px;border-radius:27px;}
+.ml-login-page .ml-section-eyebrow {font-size:13px;padding:8px 14px;gap:7px;}.ml-login-page .ml-section-eyebrow svg {width:20px;height:20px;}
+.ml-login-page h1 {font-size:clamp(26px,7.2vw,40px);letter-spacing:-1px;}.ml-login-page .ml-lead {font-size:14px;margin-bottom:22px;}
+.ml-login-page .ml-field-label {font-size:15px;}.ml-login-page .ml-field-shell {min-height:51px;padding:0 12px;gap:11px;border-radius:12px;}.ml-login-page .ml-field-shell input {font-size:15px;padding:12px 0;}.ml-login-page .ml-field-shell > svg,.ml-login-page .ml-eye-btn svg {width:22px;height:22px;}
+.ml-login-page .ml-form {gap:14px;}.ml-login-page .ml-muted-hint {font-size:10px;}.ml-login-page .ml-form .ml-button {min-height:56px;font-size:23px;}.ml-login-page .ml-or {font-size:10px;letter-spacing:1.1px;gap:10px;margin:25px 0 18px;}
+.ml-login-page .ml-demo-grid {gap:6px;}.ml-login-page .ml-demo-account {min-height:88px;font-size:13px;border-radius:18px;}.ml-login-page .ml-demo-account svg {width:32px;height:32px;}.ml-login-page .ml-demo-hint {font-size:12px;margin:15px 0 25px;}.ml-login-page .ml-switch-auth {font-size:15px;}.ml-login-page .ml-demo-note {font-size:10px;gap:6px;margin-top:25px;}.ml-login-page .ml-demo-note svg {width:17px;height:17px;}
+}
+/* Keep the complete login screen within the available viewport. */
+.ml-login-page {height:100dvh;min-height:0;}
+.ml-login-page .ml-mobile-container {height:100%;min-height:0;display:flex;flex-direction:column;padding-bottom:12px;overflow:auto;}
+.ml-login-page .ml-screen-header {flex:0 0 auto;height:clamp(52px,8dvh,90px);}
+.ml-login-page .ml-visual-strip {flex:1 1 0;height:auto!important;min-height:0;background-position:center 45%;}
+.ml-login-page .ml-login-sheet {flex:0 0 auto;margin:0 auto;padding:clamp(12px,2dvh,24px) clamp(18px,4vw,44px);border-radius:28px;}
+.ml-login-page .ml-section-eyebrow {font-size:clamp(11px,1.6dvh,17px);padding:6px 12px;gap:7px;}
+.ml-login-page .ml-section-eyebrow svg {width:20px;height:20px;}
+.ml-login-page h1 {font-size:clamp(25px,3.8dvh,42px);margin:clamp(8px,1.5dvh,16px) 0 8px;}
+.ml-login-page .ml-lead {font-size:clamp(11px,1.7dvh,18px);margin-bottom:clamp(12px,2dvh,24px);}
+.ml-login-page .ml-form {gap:clamp(8px,1.4dvh,16px);}
+.ml-login-page .ml-field {gap:5px;}
+.ml-login-page .ml-field-label {font-size:clamp(12px,1.8dvh,18px);}
+.ml-login-page .ml-field-shell {min-height:clamp(36px,5.5dvh,58px);padding:0 12px;gap:10px;}
+.ml-login-page .ml-field-shell input {font-size:clamp(12px,1.8dvh,18px);padding:9px 0;}
+.ml-login-page .ml-muted-hint {font-size:clamp(8px,1.15dvh,12px);}
+.ml-login-page .ml-form .ml-button {min-height:clamp(40px,6dvh,64px);margin-top:4px;font-size:clamp(21px,3dvh,29px);}
+.ml-login-page .ml-or {margin:clamp(12px,2dvh,24px) 0 clamp(10px,1.5dvh,18px);font-size:clamp(9px,1.3dvh,14px);letter-spacing:1px;}
+.ml-login-page .ml-demo-account {min-height:clamp(60px,9dvh,108px);font-size:clamp(11px,1.7dvh,18px);gap:4px;}
+.ml-login-page .ml-demo-account svg {width:clamp(25px,4dvh,42px);height:clamp(25px,4dvh,42px);}
+.ml-login-page .ml-demo-hint {font-size:clamp(9px,1.3dvh,14px);margin:clamp(8px,1.3dvh,15px) 0 clamp(12px,2dvh,22px);}
+.ml-login-page .ml-switch-auth {font-size:clamp(12px,1.8dvh,18px);}
+.ml-login-page .ml-demo-note {font-size:clamp(8px,1.2dvh,12px);margin-top:clamp(12px,2dvh,22px);}
+.ml-login-page .ml-demo-note svg {width:15px;height:15px;}
+@media(max-height:650px) {
+ .ml-login-page .ml-screen-header {height:48px;}
+ .ml-login-page .ml-brand {font-size:24px;}
+ .ml-login-page .ml-brand-symbol svg {width:30px;height:38px;}
+ .ml-login-page .ml-brand-name small {font-size:7px;margin-top:5px;}
+ .ml-login-page .ml-header-seal {width:34px;height:34px;}
+ .ml-login-page .ml-login-sheet {padding-top:10px;padding-bottom:10px;}
+ .ml-login-page .ml-lead {margin-bottom:9px;}
+ .ml-login-page .ml-demo-hint {margin:7px 0 10px;}
+ .ml-login-page .ml-demo-note {margin-top:9px;}
+}
