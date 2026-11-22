@@ -1,1 +1,49 @@
-/* Design tokens pending. */
+/* MilkLink Design Tokens */
+:root {
+  /* Brand Primary */
+  --ml-primary: #16916c;
+  --ml-primary-dark: #00627a;
+  --ml-primary-light: #e5f5f5;
+  --ml-accent-green: #169e08;
+
+  /* Admin Theme (Dark Navy / Tech Slate) */
+  --ml-admin-navy: #0d2137;
+  --ml-admin-navy-dark: #081726;
+  --ml-admin-card-bg: #142a45;
+  --ml-admin-accent: #2563eb;
+  --ml-admin-cyan: #06b6d4;
+  --ml-admin-purple: #9333ea;
+  --ml-admin-pink: #ec4899;
+
+  /* Neutrals */
+  --ml-bg-app: #f4f7fa;
+  --ml-bg-surface: #ffffff;
+  --ml-text-main: #0f172a;
+  --ml-text-muted: #64748b;
+  --ml-text-subtle: #94a3b8;
+  --ml-border-subtle: #e2e8f0;
+  --ml-border-strong: #cbd5e1;
+
+  /* Status Colors */
+  --ml-success: #10b981;
+  --ml-success-bg: #ecfdf5;
+  --ml-warning: #f59e0b;
+  --ml-warning-bg: #fffbeb;
+  --ml-danger: #ef4444;
+  --ml-danger-bg: #fef2f2;
+  --ml-info: #3b82f6;
+  --ml-info-bg: #eff6ff;
+
+  /* Elevation */
+  --ml-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --ml-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --ml-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.03);
+  --ml-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+
+  /* Radius */
+  --ml-radius-sm: 6px;
+  --ml-radius-md: 10px;
+  --ml-radius-lg: 16px;
+  --ml-radius-xl: 22px;
+  --ml-radius-full: 9999px;
+}

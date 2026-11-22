@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 
 type IconName = 'phone' | 'lock' | 'eye' | 'eye-off' | 'farmer' | 'buyer' | 'collector' | 'admin' | 'arrow' | 'user' | 'offline';
@@ -38,13 +39,19 @@ function Brand() {
 const roles = ['Farmer', 'Buyer', 'Collector', 'Admin'] as const;
 
 export default function LoginPage() {
-  const [role, setRole] = useState<(typeof roles)[number]>('Farmer');
+  const navigate = useNavigate();
+  const [role, setRole] = useState<(typeof roles)[number]>('Admin');
   const [showPassword, setShowPassword] = useState(false);
   const [notice, setNotice] = useState('');
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setNotice(`${role} sign-in is ready for backend connection.`);
+    if (role === 'Admin') {
+      navigate('/admin');
+    } else {
+      setNotice(`${role} sign-in is ready for backend connection. Switching to Admin demo...`);
+      setTimeout(() => navigate('/admin'), 1200);
+    }
   }
 
   return <main className="login-page">
