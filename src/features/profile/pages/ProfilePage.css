@@ -56,3 +56,8 @@
 }
 @media(max-width:360px) {.profile-overview .ml2-profile-avatar {width:72px;height:72px;flex-basis:72px;}.profile-overview .ml2-profile-head {gap:10px;}.profile-overview .ml2-profile-head h2 {font-size:18px;}.profile-overview .ml2-profile-head p {font-size:12px;}}
 .profile-overview .ml2-profile-avatar {object-position:center;}
+@media(max-width:850px) {
+ .profile-reference-page:has(.ml2-bottom-nav) .ml2-content-inner {padding-bottom:calc(106px + env(safe-area-inset-bottom, 0px));}
+ .profile-reference-page .ml2-bottom-nav {position:fixed;bottom:0;left:0;right:0;width:100%;max-width:none;transform:none;z-index:20;margin:0;padding:9px 9px calc(12px + env(safe-area-inset-bottom, 0px));background:#fff;box-shadow:0 -5px 22px #23486014;}
+ .profile-reference-page .ml2-bottom-nav button {flex:1;min-width:0;}
+}

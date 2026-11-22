@@ -1,9 +1,10 @@
+import CollectorBottomNav from '../../collector/components/CollectorBottomNav';
 import './ProfilePage.css';
 import { useState } from 'react';
 import type { Nav } from '../../auth/components/AuthUI';
 import { Icon } from '../../auth/components/AuthUI';
 import { getSession, signOut } from '../../auth/components/mockAuth';
-import { Action, Banner, Chip, InfoRow, Panel, Screen } from '../../shared/components/NextUI';
+import { Action, Banner, BottomNav, Chip, InfoRow, Panel, Screen } from '../../shared/components/NextUI';
 import { getDemoLocation, getDemoProfile, saveDemoProfile, type DemoProfile, districts } from '../../shared/lib/demoData';
 
 export default function ProfilePage({navigate}:{navigate:Nav}){
@@ -14,7 +15,7 @@ export default function ProfilePage({navigate}:{navigate:Nav}){
  const savedLocation=getDemoLocation(account);
  function update(key:keyof DemoProfile,v:string){setProfile(prev=>({...prev,[key]:v}))}
  function submit(){if(!account)return;if(profile.name.trim().length<2||!/^07\d{8}$/.test(profile.phone)){setNotice('Enter a name and a valid Sri Lankan mobile number (07XXXXXXXX).');return;}saveDemoProfile(account,profile);setEditing(false);setNotice('Your demo profile changes were saved on this device.');}
- return <Screen className="profile-reference-page" account={account} navigate={navigate} title="My Profile" subtitle="Your account, role and farm/business information in one place." image="/images/profile-banner-v2.webp" eyebrow="ACCOUNT & PERSONAL DETAILS" footer={<></>} cover={
+ return <Screen className="profile-reference-page" account={account} navigate={navigate} title="My Profile" subtitle="Your account, role and farm/business information in one place." image="/images/profile-banner-v2.webp" eyebrow="ACCOUNT & PERSONAL DETAILS" footer={account.role === 'collector' ? <CollectorBottomNav navigate={navigate} active=""/> : account.role === 'farmer' ? <BottomNav navigate={navigate} active="Profile"/> : <></>} cover={
    <div className="profile-cover">
     <img src="/images/profile-banner-v2.webp" alt="A smiling dairy farmer on a green Sri Lankan farm"/>
     <div className="profile-cover-title">{account.role === 'farmer' ? 'Farmer Profile' : 'My Profile'}<Icon name="leaf" size={19}/><span/></div>

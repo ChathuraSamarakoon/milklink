@@ -65,3 +65,78 @@
  .ml2-bottom-nav{justify-content:space-between;padding-left:6px;padding-right:6px}
  .ml2-bottom-nav button span{font-size:9px}
 }
+
+.ml2-collector-hero{background:linear-gradient(105deg,#5a2fb1 0%,#6e42c9 62%,#7f55d9 100%)}
+.ml2-date-chip{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid #e3eaf1;border-radius:14px;padding:12px 14px;margin:0 0 15px;color:#334f60;font-size:12px;font-weight:800}
+.ml2-listing-button{width:100%;border:0;background:transparent;text-align:left}
+.ml2-avatar-thumb{width:54px;height:54px;border-radius:12px;overflow:hidden;flex:0 0 54px;border:1px solid #e5edf2}
+.ml2-avatar-thumb img,.ml2-inline-thumb img,.ml2-hero-image-card img{width:100%;height:100%;object-fit:cover;display:block}
+.ml2-inline-thumb{width:58px;height:58px;border-radius:12px;overflow:hidden;flex:0 0 58px;border:1px solid #e4ebf1}
+.ml2-row-tail{margin-left:auto;display:flex;flex-direction:column;gap:7px;align-items:flex-end}
+.ml2-search-shell{display:flex;align-items:center;gap:10px;border:1px solid #dde7ee;background:#fff;border-radius:16px;padding:13px 14px;margin:0 0 14px;color:#7f95a3}
+.ml2-search-shell input{border:0;outline:0;background:transparent;width:100%;font-size:12px;color:#7f95a3;font-weight:750}
+.ml2-order-main{display:flex;gap:11px;align-items:center;min-width:0}
+.ml2-hero-image-card{height:180px;border-radius:16px;overflow:hidden;margin-bottom:15px;border:1px solid #e1eaf0}
+.ml2-hero-image-card img{height:100%}
+.ml2-data-list-single{grid-template-columns:1fr}
+.ml2-summary-card{display:flex;gap:11px;align-items:flex-start;padding:14px;border-radius:16px;border:1px solid #ddd6f5;background:linear-gradient(120deg,#f5f0ff,#f7f5ff)}
+.ml2-summary-card strong{display:block;font-size:23px;color:#2e2350;line-height:1.2}
+.ml2-summary-card small{display:block;font-size:11px;color:#746d93;font-weight:800;margin-bottom:5px}
+.ml2-summary-card p{margin:5px 0 0;font-size:11px;color:#746d93}
+.ml2-offline-note{display:flex;gap:9px;align-items:flex-start;padding:11px 0 2px;color:#6f8693;font-size:11px}
+.ml2-offline-note svg{color:var(--ml2-accent);flex-shrink:0}
+@media(max-width:430px){
+ .ml2-hero-image-card{height:150px}
+ .ml2-row-tail strong{font-size:11px}
+}
+
+/* MilkLink collector role: purple mobile-first look approved in the design reference. */
+.ml2-root.ml2-collector-pages{--ml2-accent:#672bc6;--ml2-pale:#f0eafd;background:#eff0fb}
+.ml2-collector-pages .ml2-header-avatar{background:#8765d6;border-color:#eee6ff}
+.ml2-collector-pages .ml2-header .ml-brand-symbol{color:#6339bb}
+.ml2-collector-pages .ml2-metric-icon,.ml2-collector-pages .ml2-info-icon{background:#f0eafe;color:#6b39c8}
+.ml2-collector-pages .ml2-action:not(.ml2-secondary){background:linear-gradient(105deg,#6737cb,#7b26d3);border-color:#6f36ca;box-shadow:0 5px 18px #6b2bc12b}
+.ml2-collector-pages .ml2-collector-hero{min-height:162px;padding:25px 20px;background:linear-gradient(105deg,#6335b6,#7848d6)}
+.ml2-collector-pages .ml2-collector-hero::after{width:62%;mask-image:linear-gradient(90deg,transparent,black 48%)}
+.ml2-collector-pages .ml2-collector-hero h2{font-size:25px;letter-spacing:-.8px;text-shadow:0 1px 8px #1b0f4b70}
+.ml2-collector-pages .ml2-collector-hero p{max-width:58%}
+.ml2-collector-pages .ml2-date-chip{color:#372b67;background:#fff;border-color:#e7e0f7}
+.ml2-collector-pages .ml2-order-card:hover,.ml2-collector-pages .ml2-listing-button:hover{border-color:#d4c4f4;background:#fcfbff}
+.ml2-collector-pages .ml2-search-shell:focus-within{border-color:#9564e5;box-shadow:0 0 0 3px #9c71e325}
+.ml2-collector-pages .ml2-quick-tile.featured{background:linear-gradient(110deg,#5c2ac2,#8246df)}
+.ml2-collector-pages .ml2-bottom-nav{border-top:1px solid #e8def8}
+.ml2-difference-hint{display:flex;gap:7px;padding:10px 11px;border:1px solid #ffe3bc;background:#fffaf1;border-radius:11px;color:#88631e;font-size:11px;line-height:1.4}
+.ml2-difference-hint svg{flex:none}
+.ml2-required-star{color:#b64357}
+@media(max-width:850px){
+ .ml2-collector-pages .ml2-header{height:64px;padding-top:0;padding-bottom:0;align-items:center}
+ .ml2-collector-pages .ml2-content-inner{padding-bottom:106px}
+ .ml2-collector-pages .ml2-bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:500px;z-index:20;box-shadow:0 -5px 22px #352e6520;padding:9px 9px 12px;margin:0}
+ .ml2-collector-pages.ml2-collector-dashboard .ml2-mobile-cover,
+ .ml2-collector-pages.ml2-collector-detail .ml2-mobile-cover,
+ .ml2-collector-pages.ml2-collector-record .ml2-mobile-cover{display:none}
+ .ml2-collector-pages.ml2-collector-dashboard .ml2-content-inner,
+ .ml2-collector-pages.ml2-collector-detail .ml2-content-inner,
+ .ml2-collector-pages.ml2-collector-record .ml2-content-inner{margin-top:0}
+ .ml2-collector-pages .ml2-mobile-cover{height:165px;background-position:center 53%}
+ .ml2-collector-pages .ml2-bottom-nav button{min-width:0;flex:1}
+}
+/* Keep farmer navigation anchored to the mobile viewport, like collector navigation. */
+@media(max-width:850px) {
+ .ml2-root.ml-theme-farmer:has(nav[aria-label="Farmer navigation"]) .ml2-app {max-width:none;}
+ .ml2-root.ml-theme-farmer:has(nav[aria-label="Farmer navigation"]) .ml2-content-inner {
+  padding-bottom:calc(106px + env(safe-area-inset-bottom, 0px));
+ }
+ .ml2-root.ml-theme-farmer nav[aria-label="Farmer navigation"] {
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  width:100%;
+  z-index:20;
+  margin:0;
+  padding:9px 9px calc(12px + env(safe-area-inset-bottom, 0px));
+  background:#fff;
+  box-shadow:0 -5px 22px #23486014;
+ }
+}

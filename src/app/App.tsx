@@ -20,6 +20,11 @@ import EditListingPage from '../features/farmer/pages/EditListingPage';
 import IncomingOrdersPage from '../features/farmer/pages/IncomingOrdersPage';
 import FarmerOrderDetailPage from '../features/farmer/pages/FarmerOrderDetailPage';
 import FarmerHistoryPage from '../features/farmer/pages/FarmerHistoryPage';
+import CollectorDashboardPage from '../features/collector/pages/CollectorDashboardPage';
+import AssignedPickupsPage from '../features/collector/pages/AssignedPickupsPage';
+import PickupDetailsPage from '../features/collector/pages/PickupDetailsPage';
+import RecordCollectionPage from '../features/collector/pages/RecordCollectionPage';
+import CollectionHistoryPage from '../features/collector/pages/CollectionHistoryPage';
 import '../features/auth/pages/AuthPages.css';
 
 function DemoHome({ role, navigate }: { role: Role; navigate: Nav }) {
@@ -54,7 +59,7 @@ function DemoHome({ role, navigate }: { role: Role; navigate: Nav }) {
         </div>
         <section className="ml-sheet">
           <h2>{role[0].toUpperCase() + role.slice(1)} dashboard</h2>
-          <p>This is a navigation preview. The farmer module now includes the full farmer flow with dashboard, listings, orders and history pages.</p>
+          <p>This prototype includes the full farmer flow and the collector flow with dashboard, pickups, collection recording and history pages.</p>
           <div className="ml-dashboard-tiles">{actions[role].map((action) => <div className="ml-dashboard-tile" key={action}><Icon name={role === 'farmer' ? 'milk' : role === 'buyer' ? 'cart' : role === 'collector' ? 'truck' : 'users'} /><span>{action}</span><small>Preview</small></div>)}</div>
           <div className="ml-dashboard-tiles">
             <button className="ml-dashboard-tile" onClick={() => navigate('/app/profile')}><Icon name="user" /><span>My Profile</span><small>Shared screen</small></button>
@@ -85,7 +90,7 @@ export default function App() {
   };
 
   const session = getSession();
-  const protectedPath = path.startsWith('/app/') || path.startsWith('/install') || path.startsWith('/farmer');
+  const protectedPath = path.startsWith('/app/') || path.startsWith('/install') || path.startsWith('/farmer') || path.startsWith('/collector');
   const routeParts = useMemo(() => path.split('/').filter(Boolean), [path]);
 
   if (protectedPath && !session) return <LoginPage navigate={navigate} />;
@@ -101,6 +106,17 @@ export default function App() {
     if (path === '/farmer/orders') return <IncomingOrdersPage navigate={navigate} />;
     if (routeParts[0] === 'farmer' && routeParts[1] === 'orders' && routeParts[2]) return <FarmerOrderDetailPage navigate={navigate} orderId={decodeURIComponent(routeParts[2])} />;
     if (path === '/farmer/history') return <FarmerHistoryPage navigate={navigate} />;
+  }
+
+
+  if (path.startsWith('/collector')) {
+    if (session?.role !== 'collector') return <DemoHome role="collector" navigate={navigate} />;
+    if (path === '/collector') return <CollectorDashboardPage navigate={navigate} />;
+    if (path === '/collector/pickups') return <AssignedPickupsPage navigate={navigate} />;
+    if (path === '/collector/collect') return <RecordCollectionPage navigate={navigate} />;
+    if (routeParts[0] === 'collector' && routeParts[1] === 'pickups' && routeParts[2]) return <PickupDetailsPage navigate={navigate} pickupId={decodeURIComponent(routeParts[2])} />;
+    if (routeParts[0] === 'collector' && routeParts[1] === 'collect' && routeParts[2]) return <RecordCollectionPage navigate={navigate} pickupId={decodeURIComponent(routeParts[2])} />;
+    if (path === '/collector/history') return <CollectionHistoryPage navigate={navigate} />;
   }
 
   switch (path) {
