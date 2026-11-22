@@ -4,7 +4,81 @@ export type UserStatus = 'active' | 'disabled' | 'pending';
 
 export type ListingStatus = 'active' | 'expired' | 'disabled' | 'reserved';
 
+export type OrderStatus = 'pending' | 'reserved' | 'accepted' | 'in-transit' | 'completed' | 'cancelled';
+
+export type PaymentRecordStatus = 'recorded' | 'pending' | 'reconciled';
+
 export type TimeRangeFilter = 'today' | 'week' | 'month' | 'quarter' | 'year';
+
+export interface OrderSyncConflict {
+  operationId: string;
+  clientTime: string;
+  serverTime: string;
+  conflictType: 'quantity_mismatch' | 'replay_sequence' | 'status_race';
+  description: string;
+  clientQuantityLitres?: number;
+  serverQuantityLitres?: number;
+  resolutionStatus: 'unresolved' | 'resolved';
+}
+
+export interface OrderLifecycleStep {
+  id: string;
+  name: string;
+  actor: string;
+  actorRole: UserRole | 'system';
+  timestamp: string;
+  status: 'completed' | 'in-progress' | 'pending' | 'conflict';
+  details: string;
+  outboxOperationId?: string;
+}
+
+export interface AdminOrderRecord {
+  id: string;
+  listingId: string;
+  buyerId: string;
+  buyerName: string;
+  buyerPhone: string;
+  farmerId: string;
+  farmerName: string;
+  farmerPhone: string;
+  farmerDivision: string;
+  farmerDistrict: string;
+  collectorId?: string;
+  collectorName?: string;
+  collectorPhone?: string;
+  requestedLitres: number;
+  actualLitres?: number;
+  unitPriceLkr: number;
+  totalPriceLkr: number;
+  recalculatedTotalPriceLkr?: number;
+  collectionDate: string;
+  orderDate: string;
+  status: OrderStatus;
+  collectionInfo?: {
+    measurementMethod: 'Calibrated Dipstick' | 'Milk Meter' | 'Weight Scales';
+    milkTemperatureCelsius?: number;
+    qualityGrade?: string;
+    routeBatchId?: string;
+    collectedAtTime?: string;
+  };
+  paymentRecord: {
+    type: 'cash'; // Strictly cash recording as specified by MilkLink proposal
+    status: PaymentRecordStatus;
+    amountLkr?: number;
+    recordedAt?: string;
+    recordedBy?: string;
+    notes?: string;
+  };
+  syncConflict?: OrderSyncConflict;
+  lifecycleSteps?: OrderLifecycleStep[];
+  auditEvents?: Array<{
+    id: string;
+    action: string;
+    actor: string;
+    timestamp: string;
+    notes: string;
+  }>;
+}
 
 export interface ListingRelatedOrder {
   id: string;
@@ -13,7 +87,7 @@ export interface ListingRelatedOrder {
   buyerPhone: string;
   requestedLitres: number;
   totalPriceLkr: number;
-  status: 'pending' | 'accepted' | 'in-transit' | 'completed' | 'cancelled';
+  status: OrderStatus;
   orderDate: string;
   collectorName?: string;
 }
@@ -39,7 +113,7 @@ export interface AdminMilkListing {
   availableLitres: number;
   unitPriceLkr: number;
   availableFrom: string;
-  availableTo: string; // Expiry
+  availableTo: string;
   status: ListingStatus;
   fatContentPercent?: number;
   milkingSession?: 'morning' | 'evening';
@@ -68,7 +142,7 @@ export interface UserAssociatedOrder {
   quantityLitres: number;
   totalPriceLkr: number;
   orderDate: string;
-  status: 'pending' | 'accepted' | 'in-transit' | 'completed' | 'cancelled';
+  status: OrderStatus;
   collectorName?: string;
 }
 

@@ -63,6 +63,13 @@ export const AdminLayout: React.FC = () => {
               </button>
               <button
                 type="button"
+                className={`demo-pill ${location.pathname.includes('/ord-501') ? 'active' : ''}`}
+                onClick={() => navigate('/admin/orders/ord-501')}
+              >
+                Order Detail
+              </button>
+              <button
+                type="button"
                 className={`demo-pill ${location.pathname === '/admin/sync' ? 'active' : ''}`}
                 onClick={() => navigate('/admin/sync')}
               >

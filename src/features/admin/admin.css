@@ -2689,3 +2689,550 @@
 .dot-warning {
   background-color: #f59e0b;
 }
+
+
+/* ----------------------------------------------------
+   ORDER MANAGEMENT & DETAIL STYLES (A16–A18, A21)
+---------------------------------------------------- */
+.order-id-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.order-sub-date {
+  font-size: 11px;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.parties-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 170px;
+}
+
+.party-line {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+}
+
+.party-role-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.party-role-tag.role-buyer { background-color: #fdf2f8; color: #db2777; }
+.party-role-tag.role-farmer { background-color: #ecfdf5; color: #059669; }
+.party-role-tag.role-collector { background-color: #f0f9ff; color: #0284c7; }
+
+.party-name {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.party-location-sub {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.order-litres-val {
+  font-size: 13.5px;
+  color: #0f172a;
+}
+
+.actual-litres-sub {
+  font-size: 11px;
+  font-weight: 700;
+  display: block;
+}
+
+.order-price-val {
+  font-size: 13.5px;
+  color: #0f172a;
+}
+
+/* PAYMENT RECORD INDICATOR */
+.payment-indicator-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.pay-recorded {
+  background-color: #ecfdf5;
+  color: #047857;
+  border: 1px solid #6ee7b7;
+}
+
+.pay-reconciled {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #93c5fd;
+}
+
+.pay-pending {
+  background-color: #fffbeb;
+  color: #b45309;
+  border: 1px solid #fcd34d;
+}
+
+.btn-open-order {
+  background-color: #0d2137;
+  color: #ffffff;
+  border-color: #0d2137;
+}
+
+.btn-open-order:hover {
+  background-color: #1a365d;
+}
+
+/* ADMIN GOVERNANCE CARD (Do not fabricate cancel/complete/override) */
+.admin-governance-card {
+  background-color: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-left: 4px solid #0d2137;
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  gap: 12px;
+  color: #334155;
+  font-size: 12px;
+  margin-top: 10px;
+}
+
+.gov-icon {
+  flex-shrink: 0;
+  color: #0d2137;
+  margin-top: 1px;
+}
+
+.gov-text strong {
+  color: #0f172a;
+}
+
+.gov-text p {
+  margin: 3px 0 0;
+  line-height: 1.45;
+  color: #475569;
+}
+
+/* PARTIES GRID IN DETAIL PAGE */
+.parties-overview-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+@media (min-width: 600px) {
+  .parties-overview-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.order-drop-avatar-lg {
+  width: 54px;
+  height: 54px;
+  border-radius: 14px;
+  background-color: #eff6ff;
+  color: #2563eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.order-payment-status-tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #15803d;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.unassigned-collector-alert {
+  background-color: #fffbeb;
+  border: 1px solid #fef3c7;
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: #b45309;
+  font-size: 11.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+
+/* ----------------------------------------------------
+   ORDER DETAIL, LIFECYCLE & CASH RECORD STYLES
+---------------------------------------------------- */
+.btn-sync-conflict-jump {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background-color: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #b91c1c;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-sync-conflict-jump:hover {
+  background-color: #fecaca;
+}
+
+/* SYNC CONFLICT CARD */
+.order-sync-conflict-card {
+  background-color: #fff1f2;
+  border: 1px solid #fecdd3;
+  border-left: 5px solid #e11d48;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.conflict-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.conflict-header-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.conflict-header-left h4 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 800;
+  color: #9f1239;
+}
+
+.conflict-badge {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid #fca5a5;
+}
+
+.conflict-desc {
+  margin: 0;
+  font-size: 12.5px;
+  color: #881337;
+  line-height: 1.45;
+}
+
+.conflict-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 11.5px;
+}
+
+.meta-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.meta-label {
+  font-weight: 700;
+  color: #9f1239;
+}
+
+.meta-box code {
+  background-color: #ffe4e6;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.btn-resolve-sync {
+  background-color: #e11d48;
+  color: #ffffff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.btn-resolve-sync:hover {
+  background-color: #be123c;
+}
+
+/* LIFECYCLE TIMELINE */
+.lifecycle-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  padding-left: 28px;
+  margin-top: 14px;
+}
+
+.lifecycle-timeline::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 11px;
+  width: 2px;
+  background-color: #cbd5e1;
+}
+
+.lifecycle-timeline-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.step-circle {
+  position: absolute;
+  left: -28px;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #f1f5f9;
+  border: 2px solid #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  color: #64748b;
+  z-index: 2;
+}
+
+.circle-done {
+  background-color: #10b981;
+  border-color: #10b981;
+  color: #ffffff;
+}
+
+.circle-active {
+  background-color: #2563eb;
+  border-color: #2563eb;
+  color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.circle-conflict {
+  background-color: #ef4444;
+  border-color: #ef4444;
+  color: #ffffff;
+}
+
+.circle-pending {
+  background-color: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.step-content {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.step-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.step-name {
+  font-size: 13px;
+  color: #0f172a;
+}
+
+.step-timestamp {
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.step-actor-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  color: #475569;
+}
+
+.outbox-chip {
+  font-size: 10.5px;
+  background-color: #e2e8f0;
+  padding: 1px 6px;
+  border-radius: 4px;
+  color: #334155;
+}
+
+.step-desc {
+  margin: 2px 0 0;
+  font-size: 11.5px;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+/* RAW PAYLOAD VIEWER */
+.raw-payload-viewer {
+  margin-top: 14px;
+  background-color: #0f172a;
+  border-radius: 8px;
+  padding: 12px;
+  color: #94a3b8;
+}
+
+.payload-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #38bdf8;
+  margin-bottom: 8px;
+}
+
+.payload-code-block {
+  margin: 0;
+  font-family: monospace;
+  font-size: 11px;
+  color: #e2e8f0;
+  overflow-x: auto;
+}
+
+/* CASH COMPARISON GRID */
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.comparison-box {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.comparison-box.highlight-box {
+  background-color: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.comp-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.comp-val {
+  font-size: 18px;
+  font-weight: 900;
+  color: #0f172a;
+}
+
+.comp-sub {
+  font-size: 10.5px;
+  color: #64748b;
+}
+
+/* CASH STATUS HERO */
+.cash-status-hero {
+  background: linear-gradient(135deg, #0d2137 0%, #1e3a8a 100%);
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.cash-amount-title {
+  font-size: 11px;
+  color: #94a3b8;
+  display: block;
+}
+
+.cash-amount-huge {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  color: #ffffff;
+}
+
+.cash-fields-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-policy-alert {
+  background-color: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  gap: 10px;
+  color: #334155;
+  font-size: 11.5px;
+  margin-top: 10px;
+}
+
+.policy-shield-icon {
+  flex-shrink: 0;
+  color: #0d2137;
+  margin-top: 1px;
+}
+
+.policy-callout-text p {
+  margin: 3px 0 0;
+  line-height: 1.45;
+  color: #475569;
+}
