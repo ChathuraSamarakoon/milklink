@@ -1,0 +1,52 @@
+.login-page { width: min(100%, 720px); margin: 0 auto; position: relative; overflow: hidden; container-type: inline-size; background: linear-gradient(#ddf6ff 18%, #edf8f8 50%, #f0faf9); min-height: 100svh; }
+.login-hero { height: 52cqw; position: relative; overflow: hidden; }
+.login-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(220, 248, 248, .88) 0%, rgba(220, 248, 248, .72) 32%, rgba(220, 248, 248, .28) 52%, transparent 75%); pointer-events: none; }
+.farm-illustration { width: 100%; height: 100%; object-fit: cover; object-position: center bottom; display: block; }
+.brand { position: absolute; z-index: 1; top: 1.5cqw; left: 0; width: 100%; text-align: center; }
+.brand-row { display: flex; align-items: center; justify-content: center; gap: 1.4cqw; }
+.brand-mark { width: 13.5cqw; height: 17.5cqw; }
+.wordmark { font-size: 9.7cqw; line-height: 1; letter-spacing: -.5cqw; font-weight: 1000; position: relative; padding-bottom: 2cqw; }
+.wordmark span:first-child { color: #003c45; }
+.wordmark span:nth-child(2) { color: #169e08; }
+.wordmark svg { position: absolute; width: 23cqw; height: 3cqw; right: 8cqw; bottom: -1cqw; }
+.brand p { margin: 1cqw 0 0; font-size: 3.6cqw; line-height: 1.5; letter-spacing: 0; color: #294d50; font-weight: 600; }
+.login-card { position: relative; z-index: 1; margin: -1.6cqw 2.2cqw 0; padding: 3.5cqw 4.3cqw 11cqw; border-radius: 6cqw 6cqw 0 0; background: linear-gradient(125deg, #fff 10%, #fff 60%, #f8fdff); box-shadow: 0 0 40px #03555206; }
+.login-heading { text-align: center; margin-bottom: 4.2cqw; }
+.login-heading h1 { font-size: 7.15cqw; line-height: 1.15; margin: 1cqw 0 .7cqw; font-weight: 900; letter-spacing: -.2cqw; color: #003b43; }
+.login-heading p { margin: 0; color: #68707c; font-size: 4.15cqw; line-height: 1.4; font-weight: 500; }
+.input-field { height: 11.1cqw; display: flex; align-items: center; gap: 3.9cqw; border: 1.6px solid #b7c3d3; border-radius: 2.45cqw; padding: 0 3.5cqw; background: linear-gradient(110deg, #fbfcfd, #f7f9fc); color: #646e7a; }
+.input-field > svg { width: 4.6cqw; height: 5.2cqw; flex-shrink: 0; }
+.input-field input { width: 100%; min-width: 0; background: transparent; border: 0; outline: none; color: #253f49; font-size: 3.65cqw; height: 100%; }
+.input-field input::placeholder { color: #666d79; opacity: 1; }
+.input-field:focus-within { border-color: #008d77; box-shadow: 0 0 0 3px #008d7712; }
+.input-field input:focus-visible { outline: none; }
+.password-field { margin-top: 3.8cqw; }
+.password-toggle { border: 0; padding: 0; background: transparent; color: #626c79; display: grid; place-items: center; flex-shrink: 0; width: 5.5cqw; height: 6cqw; }
+.password-toggle svg { width: 5cqw; }
+.forgot-row { display: flex; justify-content: flex-end; margin: 1.5cqw 0 3.2cqw; }
+.text-button { background: transparent; border: 0; padding: 0; color: #006669; font-size: 3.3cqw; font-weight: 700; }
+.text-button:hover { text-decoration: underline; }
+.role-fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+.role-fieldset legend { color: #07142c; font-size: 3.5cqw; font-weight: 800; padding: 0; margin-bottom: 2.3cqw; }
+.role-options { display: grid; grid-template-columns: 1.3fr .95fr 1.06fr 1fr; gap: 1.7cqw; margin: 0 -1cqw; }
+.role-option { position: relative; height: 13cqw; border: 2px solid transparent; border-radius: 2.8cqw; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .4cqw; color: #003e46; background: linear-gradient(130deg, #f1f7f6, #eaf2f2); font-size: 3.25cqw; font-weight: 800; transition: background .18s, box-shadow .18s, transform .18s; }
+.role-option > svg { width: 5.5cqw; height: 5.5cqw; }
+.role-option.selected { background: linear-gradient(130deg, #009957, #00735d); color: white; border-color: white; box-shadow: 0 6px 13px #006c4930; }
+.role-option:hover { transform: translateY(-2px); }
+.role-check { position: absolute; right: 2.1cqw; top: 2.5cqw; display: grid; place-items: center; width: 3.5cqw; height: 3.5cqw; border-radius: 50%; background: white; color: #008258; font-size: 2.7cqw; line-height: 1; font-weight: 900; }
+.login-button, .create-button { display: flex; align-items: center; justify-content: center; width: calc(100% + 2cqw); margin-left: -1cqw; border-radius: 2.7cqw; font-weight: 800; }
+.login-button { position: relative; min-height: 11.4cqw; margin-top: 5.7cqw; border: 0; color: white; background: linear-gradient(160deg, #10857d, #006157); font-size: 4.9cqw; box-shadow: inset 0 1px 0 #ffffff15; }
+.login-button [lang='si'] { font-family: 'Noto Sans Sinhala', sans-serif; font-size: .92em; }
+.login-button > svg { position: absolute; right: 4cqw; width: 5cqw; height: 5cqw; }
+.login-button:hover { background: linear-gradient(160deg, #00766f, #004f48); }
+.create-button { gap: 3cqw; min-height: 9.7cqw; margin-top: 2.7cqw; background: transparent; border: 2px solid #00865e; color: #00675d; font-size: 3.8cqw; }
+.create-button svg { width: 5.6cqw; height: 5.6cqw; }
+.create-button:hover { background: #eefaf5; }
+.login-footer { display: flex; gap: 2.5cqw; align-items: center; margin: 4cqw 1.8cqw 0; padding-top: 2.5cqw; border-top: 1px solid #dce4eb; color: #465160; }
+.login-footer > svg { flex-shrink: 0; width: 5cqw; height: 5cqw; color: #009865; }
+.login-footer p { margin: 0; font-size: 2.75cqw; letter-spacing: -.04cqw; white-space: nowrap; }
+.pasture-waves { position: absolute; bottom: 0; left: 0; z-index: 2; width: 100%; height: 13.5cqw; pointer-events: none; }
+.form-notice { margin: 2cqw 0 0; padding: 1.5cqw; border-radius: 1cqw; background: #edf8f2; color: #00675d; font-size: max(14px, 2.4cqw); text-align: center; }
+@media (min-width: 721px) { body { padding: 24px 0; background: radial-gradient(ellipse at top, #f3fbfa, #d4eeeb); } .login-page { border-radius: 22px; box-shadow: 0 14px 80px #00494116; } }
+@media (max-width: 420px) { .input-field { height: 13cqw; } .input-field input { font-size: 4cqw; } .role-option { min-height: 58px; font-size: 3.5cqw; } .text-button { font-size: 3.7cqw; } .role-fieldset legend { font-size: 4cqw; } .login-button { min-height: 52px; } .create-button { min-height: 46px; font-size: 4.2cqw; } .login-footer p { font-size: 2.65cqw; } }
+@media (prefers-reduced-motion: reduce) { .role-option { transition: none; } }

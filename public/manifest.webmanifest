@@ -1,0 +1,7 @@
+{
+  "name": "MilkLink",
+  "short_name": "MilkLink",
+  "start_url": "/",
+  "display": "standalone",
+  "icons": []
+}
