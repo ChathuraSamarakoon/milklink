@@ -10,6 +10,43 @@ export type PaymentRecordStatus = 'recorded' | 'pending' | 'reconciled';
 
 export type TimeRangeFilter = 'today' | 'week' | 'month' | 'quarter' | 'year';
 
+export interface MatchingCriteriaWeights {
+  distanceWeight: number; // 35%
+  quantityWeight: number; // 30%
+  priceWeight: number;    // 20%
+  availabilityWeight: number; // 15%
+}
+
+export interface SampleMatchQuery {
+  requestedLitres: number;
+  maxRadiusKm: number;
+  collectionDate: string;
+  preferredSession: 'morning' | 'evening' | 'any';
+}
+
+export interface RankedMatchResult {
+  rank: number;
+  farmerId: string;
+  farmerName: string;
+  listingId: string;
+  division: string;
+  district: string;
+  approxDistanceKm: number;
+  availableLitres: number;
+  unitPriceLkr: number;
+  totalScore: number;
+  scoreBreakdown: {
+    distanceScore: number;
+    quantityScore: number;
+    priceScore: number;
+    availabilityScore: number;
+  };
+  scoreExplanation: string;
+  farmerRating?: number;
+  farmerFulfillmentRate?: number;
+  estimatedCostLkr?: number;
+}
+
 export interface OrderSyncConflict {
   operationId: string;
   clientTime: string;

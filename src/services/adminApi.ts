@@ -5,6 +5,9 @@ import type {
   AdminOrderRecord,
   TimeRangeFilter,
   UserStatus,
+  MatchingCriteriaWeights,
+  SampleMatchQuery,
+  RankedMatchResult,
 } from '../features/admin/types';
 
 export const MOCK_ADMIN_DASHBOARD_DATA: AdminDashboardData = {
