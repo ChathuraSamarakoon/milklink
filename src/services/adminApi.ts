@@ -8,6 +8,9 @@ import type {
   MatchingCriteriaWeights,
   SampleMatchQuery,
   RankedMatchResult,
+  SyncOperationRecord,
+  SyncOperationStatus,
+  SyncConflictType,
 } from '../features/admin/types';
 
 export const MOCK_ADMIN_DASHBOARD_DATA: AdminDashboardData = {
@@ -1156,5 +1159,268 @@ export async function runSampleMatchSimulation(
 
       resolve(ranked);
     }, 150);
+  });
+}
+
+// ==========================================
+// A-P09: SYNCHRONIZATION MONITORING
+// Offline Queued Operations & Conflict Telemetry
+// ==========================================
+
+export const MOCK_SYNC_OPERATIONS: SyncOperationRecord[] = [
+  {
+    id: 'op-sync-801',
+    recordId: 'ord-501',
+    recordType: 'order',
+    actorId: 'usr-003',
+    actorName: 'Sampath Kumara',
+    actorRole: 'collector',
+    action: 'RECORD_COLLECTION',
+    clientTime: '2025-01-21 07:35:10',
+    serverReceivedAt: '2025-01-21 09:12:44',
+    status: 'conflicted',
+    conflictType: 'quantity_mismatch',
+    serverReason:
+      'Server is authoritative: Collector outbox reported 28.0 L via calibrated dipstick, but farmer baseline certified draft record is 27.5 L (+0.5 L variance exceeds calibrated tolerance). Server held transaction pending supervisor review.',
+    clientPayload: {
+      deviceId: 'Samsung Galaxy A14 (PWA v1.2.4)',
+      offlineDurationMinutes: 97,
+      outboxSequence: 4,
+      recordedLitres: 28.0,
+      temperatureCelsius: 4.2,
+      cashAmountLkr: 5880.0,
+      attemptCount: 3,
+      rawPayloadSnippet:
+        '{"op":"RECORD_COLLECTION","litres":28.0,"temp":4.2,"measurementMethod":"Calibrated Dipstick","farmerId":"usr-001"}',
+    },
+    serverAuthoritativeState: {
+      currentStatus: 'accepted',
+      serverLitres: 27.5,
+      certifiedVariance: '+0.5 L (+1.8%)',
+      lastServerUpdate: '2025-01-21 07:00:00',
+    },
+    resolutionStatus: 'unresolved',
+    authorizedOverrideAvailable: true,
+  },
+  {
+    id: 'op-sync-802',
+    recordId: 'ord-489',
+    recordType: 'order',
+    actorId: 'usr-006',
+    actorName: 'Nuwan Jayawardena',
+    actorRole: 'collector',
+    action: 'REPLAY_DISPATCH_BATCH',
+    clientTime: '2025-01-20 18:14:00',
+    serverReceivedAt: '2025-01-21 06:30:15',
+    status: 'conflicted',
+    conflictType: 'replay_sequence',
+    serverReason:
+      'Outbox timestamp replay order sequence conflict on reconnect: subsequent route batch #2 was received before batch #1 due to intermittent GSM connectivity. Sequence monotonicity violated.',
+    clientPayload: {
+      deviceId: 'Redmi 12 (PWA v1.2.4)',
+      offlineDurationMinutes: 736,
+      outboxSequence: 2,
+      recordedLitres: 34.0,
+      attemptCount: 4,
+      rawPayloadSnippet:
+        '{"op":"REPLAY_DISPATCH_BATCH","routeId":"rt-pol-04","batchSeq":2,"checksum":"8f92a10b"}',
+    },
+    serverAuthoritativeState: {
+      currentStatus: 'in-transit',
+      certifiedVariance: 'Sequence Inversion Detected',
+      lastServerUpdate: '2025-01-20 17:50:00',
+    },
+    resolutionStatus: 'unresolved',
+    authorizedOverrideAvailable: true,
+  },
+  {
+    id: 'op-sync-803',
+    recordId: 'lst-101',
+    recordType: 'listing',
+    actorId: 'usr-001',
+    actorName: 'Nimal Perera',
+    actorRole: 'farmer',
+    action: 'UPDATE_LISTING_YIELD',
+    clientTime: '2025-01-21 08:20:00',
+    serverReceivedAt: '2025-01-21 08:45:12',
+    status: 'failed',
+    conflictType: 'status_race',
+    serverReason:
+      'Listing yield update rejected by authoritative server: Server already allocated 25.0 L reservation to buyer Kavindu Silva while farmer device was operating offline. Cannot reduce yield below active reserved quota.',
+    clientPayload: {
+      deviceId: 'Vivo Y02 (PWA v1.2.4)',
+      offlineDurationMinutes: 25,
+      outboxSequence: 1,
+      recordedLitres: 20.0,
+      attemptCount: 2,
+      rawPayloadSnippet:
+        '{"op":"UPDATE_LISTING_YIELD","listingId":"lst-101","requestedAvailableLitres":20.0}',
+    },
+    serverAuthoritativeState: {
+      currentStatus: 'reserved',
+      serverLitres: 45.0,
+      certifiedVariance: 'Total: 45L (Reserved: 25L, Available: 20L)',
+      lastServerUpdate: '2025-01-21 08:15:00',
+    },
+    resolutionStatus: 'unresolved',
+    authorizedOverrideAvailable: false,
+  },
+  {
+    id: 'op-sync-804',
+    recordId: 'ord-502',
+    recordType: 'order',
+    actorId: 'usr-002',
+    actorName: 'Kavindu Silva',
+    actorRole: 'buyer',
+    action: 'CONFIRM_RESERVATION',
+    clientTime: '2025-01-20 14:10:00',
+    serverReceivedAt: '2025-01-20 14:15:30',
+    status: 'resolved',
+    conflictType: 'version_conflict',
+    serverReason:
+      'Resolved automatically: Concurrent reservation race resolved using server monotonic timestamp; reservation locked.',
+    clientPayload: {
+      deviceId: 'Chrome Mobile (PWA v1.2.4)',
+      offlineDurationMinutes: 5,
+      outboxSequence: 3,
+      recordedLitres: 50.0,
+      attemptCount: 1,
+      rawPayloadSnippet:
+        '{"op":"CONFIRM_RESERVATION","orderId":"ord-502","reservedLitres":50.0}',
+    },
+    serverAuthoritativeState: {
+      currentStatus: 'reserved',
+      serverLitres: 50.0,
+      lastServerUpdate: '2025-01-20 14:15:30',
+    },
+    resolutionStatus: 'resolved',
+    resolvedAt: '2025-01-20 14:16:00',
+    resolvedBy: 'Authoritative Server Automated Reconciliation',
+    resolutionNote: 'System monotonic lock enforced; no human intervention needed.',
+  },
+  {
+    id: 'op-sync-805',
+    recordId: 'ord-504',
+    recordType: 'order',
+    actorId: 'usr-003',
+    actorName: 'Sampath Kumara',
+    actorRole: 'collector',
+    action: 'RECORD_CASH_PAYMENT',
+    clientTime: '2025-01-19 11:45:00',
+    serverReceivedAt: '2025-01-19 12:30:00',
+    status: 'resolved',
+    conflictType: 'quantity_mismatch',
+    serverReason:
+      'Resolved by authoritative supervisor reconciliation: Verified cash receipt of Rs. 6,880.00 matches signed physical voucher #V-9021.',
+    clientPayload: {
+      deviceId: 'Samsung Galaxy A14 (PWA v1.2.4)',
+      offlineDurationMinutes: 45,
+      outboxSequence: 8,
+      cashAmountLkr: 6880.0,
+      attemptCount: 1,
+      rawPayloadSnippet:
+        '{"op":"RECORD_CASH_PAYMENT","orderId":"ord-504","amount":6880.0,"voucher":"V-9021"}',
+    },
+    serverAuthoritativeState: {
+      currentStatus: 'completed',
+      lastServerUpdate: '2025-01-19 12:30:00',
+    },
+    resolutionStatus: 'overridden',
+    resolvedAt: '2025-01-19 14:00:00',
+    resolvedBy: 'Admin Supervisor (P. Jayawardena)',
+    resolutionNote: 'Physical carbon voucher cross-verified against collector cash sheet.',
+  },
+  {
+    id: 'op-sync-806',
+    recordId: 'lst-103',
+    recordType: 'listing',
+    actorId: 'usr-005',
+    actorName: 'Sunethra Bandara',
+    actorRole: 'farmer',
+    action: 'CREATE_DAILY_LISTING',
+    clientTime: '2025-01-21 06:15:00',
+    serverReceivedAt: '2025-01-21 06:22:00',
+    status: 'failed',
+    conflictType: 'validation_error',
+    serverReason:
+      'Schema validation rejected: Listing expiry date was in the past relative to authoritative server NTP clock. Client device clock was skewed by -120 minutes.',
+    clientPayload: {
+      deviceId: 'Nokia C32 (PWA v1.2.4)',
+      offlineDurationMinutes: 7,
+      outboxSequence: 1,
+      attemptCount: 2,
+      rawPayloadSnippet:
+        '{"op":"CREATE_DAILY_LISTING","availableLitres":35.0,"unitPrice":205.0}',
+    },
+    serverAuthoritativeState: {
+      currentStatus: 'rejected',
+      lastServerUpdate: '2025-01-21 06:22:00',
+    },
+    resolutionStatus: 'unresolved',
+    authorizedOverrideAvailable: false,
+  },
+];
+
+export async function fetchSyncOperations(): Promise<SyncOperationRecord[]> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve([...MOCK_SYNC_OPERATIONS]);
+    }, 120);
+  });
+}
+
+export async function fetchSyncOperationById(id: string): Promise<SyncOperationRecord | undefined> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(MOCK_SYNC_OPERATIONS.find((op) => op.id === id));
+    }, 80);
+  });
+}
+
+export async function resolveSyncOperation(
+  id: string,
+  resolution: {
+    action: 'accept_server' | 'accept_client' | 'force_retry';
+    supervisorJustification: string;
+    supervisorName: string;
+  }
+): Promise<{ success: boolean; operation?: SyncOperationRecord; message: string }> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const idx = MOCK_SYNC_OPERATIONS.findIndex((op) => op.id === id);
+      if (idx !== -1) {
+        const current = MOCK_SYNC_OPERATIONS[idx];
+        const isClientOverride = resolution.action === 'accept_client';
+        const isRetry = resolution.action === 'force_retry';
+
+        const updated: SyncOperationRecord = {
+          ...current,
+          status: isRetry ? 'pending-retry' : 'resolved',
+          resolutionStatus: isClientOverride ? 'overridden' : 'resolved',
+          resolvedAt: new Date().toISOString().replace('T', ' ').substring(0, 19),
+          resolvedBy: `${resolution.supervisorName} (Authorized)`,
+          resolutionNote: `Resolution mode: ${resolution.action.toUpperCase()}. Justification: ${resolution.supervisorJustification}`,
+          serverReason: isClientOverride
+            ? `Reconciled via supervisor override: ${resolution.supervisorJustification}`
+            : isRetry
+            ? `Re-queued for client retry: ${resolution.supervisorJustification}`
+            : `Authoritative server state upheld. Justification: ${resolution.supervisorJustification}`,
+        };
+
+        MOCK_SYNC_OPERATIONS[idx] = updated;
+
+        resolve({
+          success: true,
+          operation: updated,
+          message: isClientOverride
+            ? 'Client payload successfully authorized and reconciled against authoritative database.'
+            : isRetry
+            ? 'Operation scheduled for immediate client outbox retry upon next network heartbeat.'
+            : 'Authoritative server state confirmed. Conflicted client mutation dismissed.',
+        });
+      } else {
+        resolve({ success: false, message: 'Sync operation record not found.' });
+      }
+    }, 200);
   });
 }

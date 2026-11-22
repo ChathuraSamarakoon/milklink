@@ -47,6 +47,58 @@ export interface RankedMatchResult {
   estimatedCostLkr?: number;
 }
 
+export type SyncOperationStatus = 'conflicted' | 'failed' | 'resolved' | 'pending-retry';
+
+export type SyncConflictType =
+  | 'quantity_mismatch'
+  | 'replay_sequence'
+  | 'status_race'
+  | 'version_conflict'
+  | 'validation_error';
+
+export interface SyncOperationRecord {
+  id: string;
+  recordId: string;
+  recordType: 'order' | 'listing' | 'payment';
+  actorId: string;
+  actorName: string;
+  actorRole: 'collector' | 'farmer' | 'buyer';
+  action: string;
+  clientTime: string;
+  serverReceivedAt: string;
+  status: SyncOperationStatus;
+  conflictType?: SyncConflictType;
+  serverReason: string;
+  clientPayload: {
+    deviceId?: string;
+    offlineDurationMinutes?: number;
+    outboxSequence?: number;
+    recordedLitres?: number;
+    temperatureCelsius?: number;
+    cashAmountLkr?: number;
+    attemptCount?: number;
+    rawPayloadSnippet?: string;
+  };
+  serverAuthoritativeState?: {
+    currentStatus?: string;
+    serverLitres?: number;
+    certifiedVariance?: string;
+    lastServerUpdate?: string;
+  };
+  resolutionStatus?: 'unresolved' | 'resolved' | 'overridden';
+  resolvedAt?: string;
+  resolvedBy?: string;
+  resolutionNote?: string;
+  authorizedOverrideAvailable?: boolean;
+}
+
+export interface SyncFilterState {
+  role: 'all' | 'collector' | 'farmer' | 'buyer';
+  status: 'all' | 'conflicted' | 'failed' | 'resolved';
+  conflictType: 'all' | SyncConflictType;
+  searchQuery: string;
+}
+
 export interface OrderSyncConflict {
   operationId: string;
   clientTime: string;
