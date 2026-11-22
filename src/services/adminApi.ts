@@ -962,3 +962,199 @@ export async function fetchAdminOrderById(id: string): Promise<AdminOrderRecord 
     }, 100);
   });
 }
+
+// ==========================================
+// A-P08: RULE-BASED MATCHING ENGINE
+// Deterministic Multi-Criteria Algorithm (No ML)
+// ==========================================
+
+export const DEFAULT_MATCHING_WEIGHTS: MatchingCriteriaWeights = {
+  distanceWeight: 35, // Distance (Proximity Bias)
+  quantityWeight: 30, // Quantity Availability / Fulfillment
+  priceWeight: 20,    // Unit Price Competitiveness
+  availabilityWeight: 15, // Farmer Historical Reliability & Rating
+};
+
+export const DEFAULT_SAMPLE_MATCH_QUERY: SampleMatchQuery = {
+  requestedLitres: 40,
+  maxRadiusKm: 15,
+  collectionDate: new Date().toISOString().split('T')[0],
+  preferredSession: 'morning',
+};
+
+export interface CandidateListingData {
+  farmerId: string;
+  farmerName: string;
+  listingId: string;
+  division: string;
+  district: string;
+  approxDistanceKm: number;
+  availableLitres: number;
+  unitPriceLkr: number;
+  session: 'morning' | 'evening';
+  farmerRating: number;
+  farmerFulfillmentRate: number;
+}
+
+export const SAMPLE_CANDIDATE_LISTINGS: CandidateListingData[] = [
+  {
+    farmerId: 'usr-001',
+    farmerName: 'Nimal Perera',
+    listingId: 'lst-101',
+    division: 'Galkiriyagama Division',
+    district: 'Anuradhapura',
+    approxDistanceKm: 3.4,
+    availableLitres: 45,
+    unitPriceLkr: 210,
+    session: 'morning',
+    farmerRating: 4.8,
+    farmerFulfillmentRate: 98,
+  },
+  {
+    farmerId: 'usr-007',
+    farmerName: 'Gamini Jayasinghe',
+    listingId: 'lst-104',
+    division: 'Tambuttegama Division',
+    district: 'Anuradhapura',
+    approxDistanceKm: 6.8,
+    availableLitres: 80,
+    unitPriceLkr: 220,
+    session: 'morning',
+    farmerRating: 4.7,
+    farmerFulfillmentRate: 95,
+  },
+  {
+    farmerId: 'usr-004',
+    farmerName: 'Priyantha Dissanayake',
+    listingId: 'lst-102',
+    division: 'Ibbagamuwa Division',
+    district: 'Kurunegala',
+    approxDistanceKm: 11.2,
+    availableLitres: 50,
+    unitPriceLkr: 215,
+    session: 'morning',
+    farmerRating: 4.9,
+    farmerFulfillmentRate: 99,
+  },
+  {
+    farmerId: 'usr-008',
+    farmerName: 'Sarath Wickramasinghe',
+    listingId: 'lst-105',
+    division: 'Kekirawa Division',
+    district: 'Anuradhapura',
+    approxDistanceKm: 14.5,
+    availableLitres: 50,
+    unitPriceLkr: 208,
+    session: 'morning',
+    farmerRating: 4.5,
+    farmerFulfillmentRate: 92,
+  },
+  {
+    farmerId: 'usr-005',
+    farmerName: 'Sunethra Bandara',
+    listingId: 'lst-103',
+    division: 'Medirigiriya Division',
+    district: 'Polonnaruwa',
+    approxDistanceKm: 22.0,
+    availableLitres: 35,
+    unitPriceLkr: 205,
+    session: 'evening',
+    farmerRating: 4.6,
+    farmerFulfillmentRate: 94,
+  },
+];
+
+export function calculateDeterministicMatchScore(
+  candidate: CandidateListingData,
+  query: SampleMatchQuery,
+  weights: MatchingCriteriaWeights = DEFAULT_MATCHING_WEIGHTS
+): RankedMatchResult {
+  // 1. Distance Score (Max weights.distanceWeight = 35)
+  // Linear decay within search radius
+  const maxRadius = Math.max(1, query.maxRadiusKm);
+  const distanceRatio = Math.min(1.25, candidate.approxDistanceKm / maxRadius);
+  const rawDistanceScore = Math.max(0, weights.distanceWeight * (1 - (distanceRatio * 0.75)));
+  const distanceScore = Math.round(rawDistanceScore * 10) / 10;
+
+  // 2. Quantity Score (Max weights.quantityWeight = 30)
+  // Full 30 pts if candidate has enough milk; proportional if partial
+  let quantityRatio = 1.0;
+  if (candidate.availableLitres < query.requestedLitres) {
+    quantityRatio = candidate.availableLitres / query.requestedLitres;
+  }
+  const rawQuantityScore = weights.quantityWeight * Math.min(1.0, quantityRatio);
+  const quantityScore = Math.round(rawQuantityScore * 10) / 10;
+
+  // 3. Price Score (Max weights.priceWeight = 20)
+  // Baseline price = Rs. 210/L
+  const priceDiff = candidate.unitPriceLkr - 210;
+  const rawPriceScore = Math.max(4, Math.min(weights.priceWeight, weights.priceWeight - (priceDiff * 0.6)));
+  const priceScore = Math.round(rawPriceScore * 10) / 10;
+
+  // 4. Availability / Reliability Score (Max weights.availabilityWeight = 15)
+  // Farmer fulfillment rate (e.g. 98% -> 0.98) and session preference
+  const fulfillmentRatio = candidate.farmerFulfillmentRate / 100;
+  const sessionMultiplier = (query.preferredSession === 'any' || candidate.session === query.preferredSession) ? 1.0 : 0.85;
+  const rawAvailScore = weights.availabilityWeight * fulfillmentRatio * sessionMultiplier;
+  const availabilityScore = Math.round(rawAvailScore * 10) / 10;
+
+  // Total Score (0 - 100)
+  const totalScore = Math.min(100, Math.round(distanceScore + quantityScore + priceScore + availabilityScore));
+
+  const scoreExplanation = `Distance: ${candidate.approxDistanceKm} km (${distanceScore}/${weights.distanceWeight} pts) • Volume: ${candidate.availableLitres} L (${quantityScore}/${weights.quantityWeight} pts) • Price: Rs. ${candidate.unitPriceLkr}/L (${priceScore}/${weights.priceWeight} pts) • Reliability: ${candidate.farmerFulfillmentRate}% (${availabilityScore}/${weights.availabilityWeight} pts). Rule-based deterministic sum: ${totalScore}%.`;
+
+  return {
+    rank: 0,
+    farmerId: candidate.farmerId,
+    farmerName: candidate.farmerName,
+    listingId: candidate.listingId,
+    division: candidate.division,
+    district: candidate.district,
+    approxDistanceKm: candidate.approxDistanceKm,
+    availableLitres: candidate.availableLitres,
+    unitPriceLkr: candidate.unitPriceLkr,
+    totalScore,
+    scoreBreakdown: {
+      distanceScore,
+      quantityScore,
+      priceScore,
+      availabilityScore,
+    },
+    scoreExplanation,
+    farmerRating: candidate.farmerRating,
+    farmerFulfillmentRate: candidate.farmerFulfillmentRate,
+    estimatedCostLkr: Math.min(candidate.availableLitres, query.requestedLitres) * candidate.unitPriceLkr,
+  };
+}
+
+export async function fetchMatchingWeights(): Promise<MatchingCriteriaWeights> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ ...DEFAULT_MATCHING_WEIGHTS });
+    }, 50);
+  });
+}
+
+export async function runSampleMatchSimulation(
+  query: SampleMatchQuery,
+  weights: MatchingCriteriaWeights = DEFAULT_MATCHING_WEIGHTS
+): Promise<RankedMatchResult[]> {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      // Filter candidates within reasonable radius window
+      const eligible = SAMPLE_CANDIDATE_LISTINGS.filter((c) => {
+        return c.approxDistanceKm <= query.maxRadiusKm * 1.5;
+      });
+
+      const scored = eligible.map((candidate) => calculateDeterministicMatchScore(candidate, query, weights));
+      scored.sort((a, b) => b.totalScore - a.totalScore);
+
+      const ranked = scored.map((item, idx) => ({
+        ...item,
+        rank: idx + 1,
+      }));
+
+      resolve(ranked);
+    }, 150);
+  });
+}
