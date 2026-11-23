@@ -12,7 +12,7 @@ export default function ProfilePage({navigate}:{navigate:Nav}){
  if(!account)return null;
  const savedLocation=getDemoLocation(account);
  function update(key:keyof DemoProfile,v:string){setProfile(prev=>({...prev,[key]:v}))}
- function submit(){if(profile.name.trim().length<2||!/^07\d{8}$/.test(profile.phone)){setNotice('Enter a name and a valid Sri Lankan mobile number (07XXXXXXXX).');return;}saveDemoProfile(account,profile);setEditing(false);setNotice('Your demo profile changes were saved on this device.');}
+ function submit(){if(!account)return;if(profile.name.trim().length<2||!/^07\d{8}$/.test(profile.phone)){setNotice('Enter a name and a valid Sri Lankan mobile number (07XXXXXXXX).');return;}saveDemoProfile(account,profile);setEditing(false);setNotice('Your demo profile changes were saved on this device.');}
  return <Screen account={account} navigate={navigate} title="My Profile" subtitle="Your account, role and farm/business information in one place." image="/images/profile-farmer.webp" eyebrow="ACCOUNT & PERSONAL DETAILS">
   <Panel title="Profile overview" icon="user" action={<Chip tone="green">{account.role.toUpperCase()}</Chip>}>
    <div className="ml2-profile-head"><img className="ml2-profile-avatar" src="/images/profile-farmer.webp" alt="Dairy farmer illustration"/><div><h2>{profile.name}</h2><Chip tone="green">{account.role[0].toUpperCase()+account.role.slice(1)} account</Chip><p>{profile.detail || 'MilkLink member'}</p></div></div>

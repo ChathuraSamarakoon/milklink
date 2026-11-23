@@ -39,8 +39,22 @@ import AdminMatchesPage from '../../features/admin/pages/AdminMatchesPage';
 import AdminSyncMonitoringPage from '../../features/admin/pages/AdminSyncMonitoringPage';
 import AdminReportsPage from '../../features/admin/pages/AdminReportsPage';
 
+// Buyer Pages & Layout
+import BuyerDashboardPage from '../../features/buyer/pages/BuyerDashboardPage';
+import FindFarmersPage from '../../features/discovery/pages/FindFarmersPage';
+import NearbyFarmersMapPage from '../../features/discovery/pages/NearbyFarmersMapPage';
+import RecommendedMatchesPage from '../../features/matching/pages/RecommendedMatchesPage';
+import FarmerPublicDetailPage from '../../features/discovery/pages/FarmerPublicDetailPage';
+import CreateMilkOrderPage from '../../features/orders/pages/CreateMilkOrderPage';
+import ReviewMilkOrderPage from '../../features/orders/pages/ReviewMilkOrderPage';
+import BuyerOrderDetailPage from '../../features/orders/pages/BuyerOrderDetailPage';
+import AssignCollectorPage from '../../features/orders/pages/AssignCollectorPage';
+import SelfPickupPage from '../../features/orders/pages/SelfPickupPage';
+import MyOrdersPage from '../../features/orders/pages/MyOrdersPage';
+import BuyerOrderHistoryPage from '../../features/orders/pages/BuyerOrderHistoryPage';
+
 // Demo components & auth helpers for Buyer/Collector
-import { Brand, Button, DemoDisclaimer, Icon, type Role } from '../../features/auth/components/AuthUI';
+import { Brand, Button, DemoDisclaimer, Icon } from '../../features/auth/components/AuthUI';
 import { getSession, signOut } from '../../features/auth/components/mockAuth';
 
 // Adapter to provide navigate prop from react-router-dom to classic pages
@@ -247,10 +261,58 @@ export const router = createBrowserRouter([
     element: <PageAdapter Component={FarmerHistoryPage} />,
   },
 
-  // Buyer & Collector Demos
+  // Buyer Flow (Full Mobile PWA Dashboard & Features)
   {
     path: '/buyer',
-    element: <DemoHome role="buyer" />,
+    element: <BuyerDashboardPage />,
+  },
+  {
+    path: '/buyer/search',
+    element: <FindFarmersPage />,
+  },
+  {
+    path: '/buyer/search/map',
+    element: <NearbyFarmersMapPage />,
+  },
+  {
+    path: '/buyer/matches',
+    element: <RecommendedMatchesPage />,
+  },
+  {
+    path: '/buyer/farmers/:farmerId',
+    element: <FarmerPublicDetailPage />,
+  },
+  {
+    path: '/buyer/orders/new',
+    element: <CreateMilkOrderPage />,
+  },
+  {
+    path: '/buyer/orders/review',
+    element: <ReviewMilkOrderPage />,
+  },
+  {
+    path: '/buyer/orders/:orderId/assign-collector',
+    element: <AssignCollectorPage />,
+  },
+  {
+    path: '/buyer/orders/:orderId/self-pickup',
+    element: <SelfPickupPage />,
+  },
+  {
+    path: '/buyer/orders/:orderId',
+    element: <BuyerOrderDetailPage />,
+  },
+  {
+    path: '/buyer/orders',
+    element: <MyOrdersPage />,
+  },
+  {
+    path: '/buyer/history',
+    element: <BuyerOrderHistoryPage />,
+  },
+  {
+    path: '/buyer/favorites',
+    element: <BuyerDashboardPage />,
   },
   {
     path: '/collector',

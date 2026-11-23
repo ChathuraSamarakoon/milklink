@@ -1,23 +1,81 @@
+import { useNavigate } from 'react-router-dom';
+import WelcomeHero from '../components/WelcomeHero';
+import RoleIntroCard, { ROLES_LIST } from '../components/RoleIntroCard';
+import PrimaryCTA from '../components/PrimaryCTA';
+import { DemoDisclaimer, Icon } from '../components/AuthUI';
 import './WelcomePage.css';
-import { Brand, Button, DemoDisclaimer, Icon, type Nav } from '../components/AuthUI';
+import './AuthPages.css';
 
-export default function WelcomePage({ navigate }: { navigate: Nav }) {
-  return <main className="ml-ui ml-theme-farmer ml-welcome">
-    <div className="ml-mobile-container ml-welcome-layout">
-      <div className="ml-welcome-header"><Brand/><span className="ml-live-chip"><span/> Made for Sri Lankan dairy</span></div>
-      <section className="ml-welcome-hero">
-        <div className="ml-welcome-art" role="img" aria-label="Dairy cows on a lush Sri Lankan hillside" />
-        <div className="ml-welcome-art-shade" />
-        <div className="ml-welcome-text"><span className="ml-kicker"><Icon name="leaf" size={17}/> MILKLINK PLATFORM</span><h1>Connecting <em>farmers, buyers</em> and collectors.</h1><p>A simpler way to discover nearby milk suppliers and manage fresh milk orders — together.</p></div>
-        <svg className="ml-welcome-wave" viewBox="0 0 1000 110" preserveAspectRatio="none" aria-hidden="true"><path fill="#7cd32c" d="M0 80C180 0 240 130 580 65S870 0 1000 15V110H0Z"/><path fill="white" d="M0 100C110 5 220 125 560 80S840 20 1000 45V110H0Z"/></svg>
-      </section>
-      <section className="ml-welcome-bottom">
-        <div className="ml-benefits"><span><Icon name="pin" size={17}/> Nearby farmers</span><span><Icon name="milk" size={17}/> Fresh milk</span><span><Icon name="wifi-off" size={17}/> Offline-friendly</span></div>
-        <div className="ml-dots" aria-hidden="true"><span className="active"/><span/><span/></div>
-        <Button onClick={() => navigate('/register')}>Get Started <Icon name="arrow" size={21}/></Button>
-        <p className="ml-switch-auth">Already have an account? <button onClick={() => navigate('/login')}>Log in</button></p>
-        <DemoDisclaimer/>
-      </section>
-    </div>
-  </main>;
+export default function WelcomePage({ navigate: navigateProp }: { navigate?: (to: string) => void }) {
+  const routerNavigate = useNavigate();
+  const navigate = navigateProp || routerNavigate;
+
+  return (
+    <main className="ml-ui ml-theme-common ml-welcome-v2">
+      {/* 01: Hero with MilkLink drop logo, welcome headline & purpose statement */}
+      <WelcomeHero
+        title="Connecting farmers, buyers and collectors."
+        subtitle="Sri Lanka’s modern dairy milk marketplace for direct trade, transparent daily pricing, and fast local pickups."
+        image="/images/welcome-pasture.webp"
+      />
+
+      <div className="ml-welcome-body">
+        {/* Product Intro */}
+        <section className="ml-product-intro-box">
+          <h2>Marketplace Overview</h2>
+          <p>
+            MilkLink simplifies the Sri Lankan dairy supply chain by connecting local dairy producers directly with milk buyers, processors, and field collectors.
+          </p>
+        </section>
+
+        {/* 01: Farmer / Buyer / Collector role explainer cards */}
+        <section className="space-y-2">
+          <div className="flex items-center justify-between">
+            <h2 className="text-sm font-bold text-slate-800 uppercase tracking-wide">
+              Choose your role on MilkLink
+            </h2>
+            <span className="text-xs text-slate-500">3 Participant Roles</span>
+          </div>
+
+          <div className="ml-role-cards-container">
+            {ROLES_LIST.map((roleInfo) => (
+              <RoleIntroCard
+                key={roleInfo.role}
+                roleInfo={roleInfo}
+                onSelect={(role) => navigate(`/register/${role}`)}
+              />
+            ))}
+          </div>
+        </section>
+
+        {/* 03: Constraint: Do not show admin public registration */}
+        <div className="ml-admin-exclusion-banner" role="note">
+          <Icon name="shield" size={18} />
+          <span>
+            <strong>Public registration:</strong> Open for Dairy Farmers, Milk Buyers, and Milk Collectors only. Administrator accounts are restricted and managed internally.
+          </span>
+        </div>
+
+        {/* 02: Primary CTAs & Navigation Actions */}
+        <div className="ml-welcome-actions">
+          <PrimaryCTA
+            onClick={() => navigate('/register')}
+            icon="arrow"
+            iconPosition="right"
+          >
+            Get Started — Select Role
+          </PrimaryCTA>
+
+          <p className="ml-switch-auth">
+            Already have an account?{' '}
+            <button type="button" onClick={() => navigate('/login')}>
+              Log in to your account
+            </button>
+          </p>
+        </div>
+
+        <DemoDisclaimer />
+      </div>
+    </main>
+  );
 }

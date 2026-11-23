@@ -68,3 +68,338 @@ button:focus-visible,input:focus-visible,select:focus-visible { outline:3px soli
   .ml-welcome-layout {display:flex;flex-direction:column;min-height:100dvh;}
   .ml-welcome-hero {flex:1;min-height:clamp(320px,53dvh,520px);}
 }
+
+/* =========================================
+   Welcome & Role Intro Components Styling
+   ========================================= */
+
+.ml-welcome-v2 {
+  max-width: 540px;
+  margin: 0 auto;
+  background: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.ml-welcome-hero-banner {
+  position: relative;
+  min-height: 320px;
+  padding: 24px 20px 48px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.ml-welcome-hero-backdrop {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: 1;
+}
+
+.ml-welcome-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(12, 35, 64, 0.4) 0%, rgba(12, 35, 64, 0.85) 100%);
+  z-index: 2;
+}
+
+.ml-welcome-hero-content {
+  position: relative;
+  z-index: 3;
+  color: #ffffff;
+}
+
+.ml-welcome-brand-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.ml-brand--light {
+  color: #ffffff !important;
+}
+
+.ml-brand--light .ml-brand-name {
+  color: #ffffff !important;
+}
+
+.ml-brand--light .ml-brand-name > span {
+  color: #4ade80 !important;
+}
+
+.ml-brand--light small {
+  color: #cbd5e1 !important;
+}
+
+.ml-platform-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #e2e8f0;
+}
+
+.ml-welcome-headline {
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 1.18;
+  letter-spacing: -0.6px;
+  margin: 0 0 10px;
+  color: #ffffff;
+}
+
+.ml-welcome-subheadline {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: #e2e8f0;
+  margin: 0 0 16px;
+}
+
+.ml-welcome-feature-ribbon {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ml-feature-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+.ml-feature-icon {
+  color: #4ade80;
+  display: flex;
+  align-items: center;
+}
+
+.ml-welcome-wave {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 38px;
+  z-index: 4;
+}
+
+.ml-welcome-body {
+  padding: 20px 20px 36px;
+  background: #ffffff;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ml-product-intro-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 14px 16px;
+}
+
+.ml-product-intro-box h2 {
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f2d4a;
+  margin: 0 0 6px;
+}
+
+.ml-product-intro-box p {
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.45;
+  margin: 0;
+}
+
+/* Role Intro Cards */
+.ml-role-cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ml-role-intro-card {
+  border: 1.5px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 14px 16px;
+  background: #ffffff;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.ml-role-intro-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+}
+
+.ml-role-intro-card--farmer:hover, .ml-role-intro-card--farmer.is-selected {
+  border-color: #16a34a;
+  background: #f0fdf4;
+}
+
+.ml-role-intro-card--buyer:hover, .ml-role-intro-card--buyer.is-selected {
+  border-color: #0284c7;
+  background: #f0f9ff;
+}
+
+.ml-role-intro-card--collector:hover, .ml-role-intro-card--collector.is-selected {
+  border-color: #9333ea;
+  background: #faf5ff;
+}
+
+.ml-role-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.ml-role-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ml-role-avatar--farmer { background: #dcfce7; color: #15803d; }
+.ml-role-avatar--buyer { background: #e0f2fe; color: #0369a1; }
+.ml-role-avatar--collector { background: #f3e8ff; color: #7e22ce; }
+
+.ml-role-card-titles {
+  flex: 1;
+}
+
+.ml-role-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ml-role-title-row h3 {
+  font-size: 15px;
+  font-weight: 800;
+  margin: 0;
+  color: #0f172a;
+}
+
+.ml-role-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: #f1f5f9;
+  color: #475569;
+}
+
+.ml-role-subtitle {
+  font-size: 11.5px;
+  color: #64748b;
+  margin: 1px 0 0;
+}
+
+.ml-role-card-desc {
+  font-size: 12.5px;
+  color: #334155;
+  line-height: 1.4;
+  margin: 0 0 10px;
+}
+
+.ml-role-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ml-role-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 2px 7px;
+  border-radius: 6px;
+  color: #475569;
+}
+
+.ml-role-select-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  color: #334155;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.ml-role-select-btn:hover {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #0284c7;
+}
+
+/* Constraint callout: No Admin Public Registration */
+.ml-admin-exclusion-banner {
+  background: #fffbeb;
+  border: 1px solid #fef3c7;
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 11.5px;
+  color: #92400e;
+  line-height: 1.4;
+}
+
+.ml-welcome-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.ml-switch-auth {
+  text-align: center;
+  font-size: 13px;
+  color: #64748b;
+  margin: 4px 0 0;
+}
+
+.ml-switch-auth button {
+  background: none;
+  border: none;
+  color: #0284c7;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ml-switch-auth button:hover {
+  text-decoration: underline;
+}
