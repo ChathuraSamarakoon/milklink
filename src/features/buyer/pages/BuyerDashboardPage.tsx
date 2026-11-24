@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Icon } from '../../auth/components/AuthUI';
 import { getSession, signOut } from '../../auth/components/mockAuth';
 import {
@@ -60,10 +60,11 @@ function CategoryIcon({ type }: { type: string }) {
 
 export default function BuyerDashboardPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const session = getSession();
 
   // State
-  const [activeTab, setActiveTab] = useState<'home' | 'orders' | 'favorites' | 'profile'>('home');
+  const [activeTab, setActiveTab] = useState<'home' | 'orders' | 'favorites' | 'profile'>(location.pathname === '/buyer/favorites' ? 'favorites' : 'home');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [favorites, setFavorites] = useState<string[]>(getBuyerFavorites());

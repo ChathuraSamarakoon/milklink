@@ -1,0 +1,17 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities) source(none);
+@source "../features/buyer";
+@source "../features/discovery";
+@source "../features/orders";
+@source "../features/matching";
+
+/* Keep the buyer's utility-based content reset inside its own screens. */
+@layer base {
+  :where(.ml-buyer-screen, .ml-buyer-layout) :where(*) { box-sizing: border-box; margin: 0; padding: 0; border: 0 solid; }
+  :where(.ml-buyer-screen, .ml-buyer-layout) :where(h1, h2, h3, h4) { font-size: inherit; font-weight: inherit; }
+  :where(.ml-buyer-screen, .ml-buyer-layout) :where(button, input, select, textarea) { font: inherit; color: inherit; }
+  :where(.ml-buyer-screen, .ml-buyer-layout) :where(button) { background-color: transparent; }
+  :where(.ml-buyer-screen, .ml-buyer-layout) :where(img, svg) { display: block; vertical-align: middle; }
+  :where(.ml-buyer-screen, .ml-buyer-layout) :where(img) { max-width: 100%; height: auto; }
+}

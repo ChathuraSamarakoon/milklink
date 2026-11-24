@@ -1,4 +1,6 @@
 import React from 'react';
+import RoleGuard from './RoleGuard';
+import type { Role } from '../../features/auth/components/AuthUI';
 import { createBrowserRouter, Navigate, useNavigate, useParams } from 'react-router-dom';
 
 // Auth & Public Pages
@@ -53,9 +55,11 @@ import SelfPickupPage from '../../features/orders/pages/SelfPickupPage';
 import MyOrdersPage from '../../features/orders/pages/MyOrdersPage';
 import BuyerOrderHistoryPage from '../../features/orders/pages/BuyerOrderHistoryPage';
 
-// Demo components & auth helpers for Buyer/Collector
-import { Brand, Button, DemoDisclaimer, Icon } from '../../features/auth/components/AuthUI';
-import { getSession, signOut } from '../../features/auth/components/mockAuth';
+import CollectorDashboardPage from '../../features/collector/pages/CollectorDashboardPage';
+import AssignedPickupsPage from '../../features/collector/pages/AssignedPickupsPage';
+import PickupDetailsPage from '../../features/collector/pages/PickupDetailsPage';
+import RecordCollectionPage from '../../features/collector/pages/RecordCollectionPage';
+import CollectionHistoryPage from '../../features/collector/pages/CollectionHistoryPage';
 
 // Adapter to provide navigate prop from react-router-dom to classic pages
 function PageAdapter({ Component }: { Component: React.ComponentType<{ navigate: (to: string) => void }> }) {
@@ -88,94 +92,16 @@ function SyncConflictAdapter() {
   return <SyncConflictPage navigate={(to: string) => navigate(to)} id={id || ''} />;
 }
 
-// DemoHome for Buyer and Collector roles
-function DemoHome({ role }: { role: 'buyer' | 'collector' }) {
+function PickupDetailsAdapter() {
   const navigate = useNavigate();
-  const user = getSession();
+  const { pickupId } = useParams<{ pickupId: string }>();
+  return <PickupDetailsPage navigate={(to) => navigate(to)} pickupId={pickupId || ''} />;
+}
 
-  if (!user || user.role !== role) {
-    return (
-      <main className="ml-ui ml-theme-common">
-        <div className="ml-mobile-container">
-          <section className="ml-sheet ml-404">
-            <h1>Login required</h1>
-            <p>Please sign in to view this demo dashboard.</p>
-            <Button onClick={() => navigate('/login')}>Go to Login</Button>
-          </section>
-        </div>
-      </main>
-    );
-  }
-
-  const actions: Record<string, string[]> = {
-    buyer: ['Find Nearby Farmers', 'Recommended Matches', 'My Orders'],
-    collector: ['Assigned Pickups', 'Record Collection', 'Collection History'],
-  };
-
-  return (
-    <main className={`ml-ui ml-theme-${role}`}>
-      <div className="ml-mobile-container ml-preview-home">
-        <div className="ml-preview-header">
-          <Brand />
-          <span className="ml-pill">{role}</span>
-        </div>
-        <div className="ml-preview-banner">
-          <span className="ml-smalltag">
-            <Icon name="check" size={15} /> Demo sign-in successful
-          </span>
-          <h1>Welcome back, {user.name.split(' ')[0]}!</h1>
-          <p>{user.detail}</p>
-        </div>
-        <section className="ml-sheet">
-          <h2>{role[0].toUpperCase() + role.slice(1)} dashboard</h2>
-          <p>
-            This is a navigation preview. The full farmer and administrator modules are now implemented with full data tables, filters, details, and diagnostics.
-          </p>
-          <div className="ml-dashboard-tiles">
-            {actions[role]?.map((action) => (
-              <div className="ml-dashboard-tile" key={action}>
-                <Icon name={role === 'buyer' ? 'cart' : 'truck'} />
-                <span>{action}</span>
-                <small>Preview</small>
-              </div>
-            ))}
-          </div>
-          <div className="ml-dashboard-tiles">
-            <button className="ml-dashboard-tile" onClick={() => navigate('/app/profile')}>
-              <Icon name="user" />
-              <span>My Profile</span>
-              <small>Shared screen</small>
-            </button>
-            <button className="ml-dashboard-tile" onClick={() => navigate('/app/location')}>
-              <Icon name="pin" />
-              <span>Location Setup</span>
-              <small>Shared screen</small>
-            </button>
-            <button className="ml-dashboard-tile" onClick={() => navigate('/app/sync')}>
-              <Icon name="wifi-off" />
-              <span>Sync Center</span>
-              <small>Shared screen</small>
-            </button>
-            <button className="ml-dashboard-tile" onClick={() => navigate('/install')}>
-              <Icon name="phone" />
-              <span>Install PWA</span>
-              <small>Shared screen</small>
-            </button>
-          </div>
-          <Button
-            onClick={() => {
-              signOut();
-              navigate('/login');
-            }}
-            outline
-          >
-            <Icon name="logout" size={18} /> Sign out of demo
-          </Button>
-          <DemoDisclaimer />
-        </section>
-      </div>
-    </main>
-  );
+function RecordCollectionAdapter() {
+  const navigate = useNavigate();
+  const { pickupId } = useParams<{ pickupId: string }>();
+  return <RecordCollectionPage navigate={(to) => navigate(to)} pickupId={pickupId} />;
 }
 
 export const router = createBrowserRouter([
@@ -316,8 +242,15 @@ export const router = createBrowserRouter([
   },
   {
     path: '/collector',
-    element: <DemoHome role="collector" />,
+    element: <PageAdapter Component={CollectorDashboardPage} />,
   },
+
+  { path: "/collector/pickups", element: <PageAdapter Component={AssignedPickupsPage} /> },
+  { path: "/collector/pickups/:pickupId", element: <PickupDetailsAdapter /> },
+  { path: "/collector/collect", element: <RecordCollectionAdapter /> },
+  { path: "/collector/collect/:pickupId", element: <RecordCollectionAdapter /> },
+  { path: "/collector/pickups/:pickupId/collect", element: <RecordCollectionAdapter /> },
+  { path: "/collector/history", element: <PageAdapter Component={CollectionHistoryPage} /> },
 
   // FULL ADMINISTRATOR MODULE (Visual Mockup & 46-Page Specification)
   {
@@ -372,6 +305,14 @@ export const router = createBrowserRouter([
     path: '*',
     element: <Navigate to="/admin" replace />,
   },
-]);
+ ].map((route) => {
+  const role = (['farmer', 'buyer', 'collector', 'admin'] as Role[]).find(
+    (candidate) => route.path === `/${candidate}` || route.path?.startsWith(`/${candidate}/`),
+  );
+  if (role || route.path?.startsWith('/app/') || route.path === '/install') {
+    return { ...route, element: <RoleGuard allowedRoles={role ? [role] : undefined}>{route.element}</RoleGuard> };
+  }
+  return route;
+}));
 
 export default router;

@@ -104,9 +104,9 @@ export default function MyOrdersPage() {
   };
 
   return (
-    <div className="ml-buyer-container">
+    <div className="ml-buyer-screen"><div className="ml-buyer-phone-frame">
       {/* Top Header */}
-      <header className="ml-buyer-header">
+      <header className="ml-buyer-topbar ml-orders-topbar">
         <div className="flex items-center gap-2">
           <button
             type="button"
@@ -339,6 +339,6 @@ export default function MyOrdersPage() {
 
       {/* Buyer Bottom Navigation (Feature 04: BuyerNav) */}
       <BuyerNav active="orders" />
-    </div>
+    </div></div>
   );
 }

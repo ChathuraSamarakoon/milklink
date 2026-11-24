@@ -82,8 +82,8 @@
 .ml-login-page .ml-field-shell input::placeholder {color:#8591a2;}
 .ml-login-page .ml-eye-btn svg {width:28px;height:28px;}
 .ml-login-page .ml-muted-hint {font-size:14px;color:#637093;text-align:right;}
-.ml-login-page .ml-form .ml-button {margin-top:9px;min-height:76px;border-radius:99px;font-size:30px;background:linear-gradient(115deg,#00af69,#008d35 48%,#65d20c);box-shadow:0 13px 25px #00a26730;}
-.ml-login-page .ml-form .ml-button svg {width:34px;height:34px;}
+
+
 .ml-login-page .ml-or {margin:31px 0 25px;font-size:17px;letter-spacing:2px;color:#536e91;gap:20px;}
 .ml-login-page .ml-or span {background:#cbd9e7;}
 .ml-login-page .ml-demo-grid {gap:12px;}
@@ -110,7 +110,7 @@
 .ml-login-page .ml-section-eyebrow {font-size:13px;padding:8px 14px;gap:7px;}.ml-login-page .ml-section-eyebrow svg {width:20px;height:20px;}
 .ml-login-page h1 {font-size:clamp(26px,7.2vw,40px);letter-spacing:-1px;}.ml-login-page .ml-lead {font-size:14px;margin-bottom:22px;}
 .ml-login-page .ml-field-label {font-size:15px;}.ml-login-page .ml-field-shell {min-height:51px;padding:0 12px;gap:11px;border-radius:12px;}.ml-login-page .ml-field-shell input {font-size:15px;padding:12px 0;}.ml-login-page .ml-field-shell > svg,.ml-login-page .ml-eye-btn svg {width:22px;height:22px;}
-.ml-login-page .ml-form {gap:14px;}.ml-login-page .ml-muted-hint {font-size:10px;}.ml-login-page .ml-form .ml-button {min-height:56px;font-size:23px;}.ml-login-page .ml-or {font-size:10px;letter-spacing:1.1px;gap:10px;margin:25px 0 18px;}
+.ml-login-page .ml-form {gap:14px;}.ml-login-page .ml-muted-hint {font-size:10px;}.ml-login-page .ml-or {font-size:10px;letter-spacing:1.1px;gap:10px;margin:25px 0 18px;}
 .ml-login-page .ml-demo-grid {gap:6px;}.ml-login-page .ml-demo-account {min-height:88px;font-size:13px;border-radius:18px;}.ml-login-page .ml-demo-account svg {width:32px;height:32px;}.ml-login-page .ml-demo-hint {font-size:12px;margin:15px 0 25px;}.ml-login-page .ml-switch-auth {font-size:15px;}.ml-login-page .ml-demo-note {font-size:10px;gap:6px;margin-top:25px;}.ml-login-page .ml-demo-note svg {width:17px;height:17px;}
 }
 /* Keep the complete login screen within the available viewport. */
@@ -129,7 +129,7 @@
 .ml-login-page .ml-field-shell {min-height:clamp(36px,5.5dvh,58px);padding:0 12px;gap:10px;}
 .ml-login-page .ml-field-shell input {font-size:clamp(12px,1.8dvh,18px);padding:9px 0;}
 .ml-login-page .ml-muted-hint {font-size:clamp(8px,1.15dvh,12px);}
-.ml-login-page .ml-form .ml-button {min-height:clamp(40px,6dvh,64px);margin-top:4px;font-size:clamp(21px,3dvh,29px);}
+
 .ml-login-page .ml-or {margin:clamp(12px,2dvh,24px) 0 clamp(10px,1.5dvh,18px);font-size:clamp(9px,1.3dvh,14px);letter-spacing:1px;}
 .ml-login-page .ml-demo-account {min-height:clamp(60px,9dvh,108px);font-size:clamp(11px,1.7dvh,18px);gap:4px;}
 .ml-login-page .ml-demo-account svg {width:clamp(25px,4dvh,42px);height:clamp(25px,4dvh,42px);}
@@ -148,3 +148,27 @@
  .ml-login-page .ml-demo-hint {margin:7px 0 10px;}
  .ml-login-page .ml-demo-note {margin-top:9px;}
 }
+
+/* A consistent primary action across phone and desktop viewport heights. */
+.ml-login-page .ml-form .ml-login-submit {
+ width:100%;min-height:48px;height:48px;margin-top:8px;padding:0 20px;
+ display:flex;align-items:center;justify-content:center;gap:10px;
+ border:1px solid #087b45;border-radius:12px;
+ background:linear-gradient(110deg,#10894e,#08743f);
+ color:#fff;font-size:17px;font-weight:800;line-height:1.2;letter-spacing:0;
+ box-shadow:0 4px 10px #08743f20;
+ transition:background .15s ease,box-shadow .15s ease;
+}
+.ml-login-page .ml-form .ml-login-submit svg {width:20px;height:20px;flex-shrink:0;}
+@media(hover:hover) {
+ .ml-login-page .ml-form .ml-login-submit:hover:not(:disabled) {
+  background:linear-gradient(110deg,#087b44,#056034);box-shadow:0 5px 12px #08743f28;
+  filter:none;transform:none;
+ }
+}
+.ml-login-page .ml-form .ml-login-submit:active:not(:disabled) {background:#065f35;box-shadow:inset 0 2px 4px #003b2520;transform:none;}
+.ml-login-page .ml-form .ml-login-submit:focus-visible {outline:3px solid #0069bd;outline-offset:3px;}
+.ml-login-page .ml-form .ml-login-submit:disabled {opacity:1;background:#e3eee8;border-color:#d1e2d8;color:#486253;box-shadow:none;cursor:wait;}
+.ml-login-page .ml-login-spinner {width:18px;height:18px;flex-shrink:0;border:2px solid currentColor;border-right-color:transparent;border-radius:50%;animation:ml-login-spin .8s linear infinite;}
+@keyframes ml-login-spin {to {transform:rotate(360deg);}}
+@media(prefers-reduced-motion:reduce) {.ml-login-page .ml-login-spinner {animation:none;}.ml-login-page .ml-form .ml-login-submit {transition:none;}}

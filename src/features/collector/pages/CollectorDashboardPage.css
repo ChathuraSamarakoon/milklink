@@ -1,0 +1,13 @@
+/* One balanced summary surface, with independent icon and type styles. */
+.collector-summary {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0 0 18px;padding:16px 0;background:linear-gradient(130deg,#fff,#fbf9ff);border:1px solid #e8e1f3;border-radius:18px;box-shadow:0 5px 18px #4c2d8308;}
+.collector-summary-item {position:relative;padding:0 10px;min-width:0;text-align:center;}
+.collector-summary-item+.collector-summary-item {border-left:1px solid #e9e3f2;}
+.collector-summary dt {display:flex;flex-direction:column;align-items:center;gap:8px;color:#645b78;font-size:11px;font-weight:750;line-height:1.4;}
+.collector-summary-icon {width:36px;height:36px;display:grid;place-items:center;background:#f0e9fc;color:#7040c8;border-radius:12px;}
+.collector-summary-icon svg {display:block;flex-shrink:0;}
+.collector-summary dd {margin:5px 0 0;color:#29203d;font-size:28px;line-height:1.15;font-weight:900;letter-spacing:-.8px;font-variant-numeric:tabular-nums;}
+.collector-summary-completed .collector-summary-icon {background:#e9f7ef;color:#188253;}
+.collector-summary-completed dd {color:#168052;}
+.ml2-collector-dashboard .ml2-collector-primary {margin-bottom:18px;min-height:46px;border-radius:12px;}
+@media(max-width:380px) {.collector-summary-item {padding:0 6px;}.collector-summary dt {font-size:10px;}.collector-summary-label-tail {display:block;}.collector-summary dd {font-size:26px;}}
+@media(min-width:851px) {.collector-summary {padding:20px 0;}.collector-summary dt {font-size:12px;}.collector-summary dd {font-size:32px;}}

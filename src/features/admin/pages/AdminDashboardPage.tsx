@@ -17,7 +17,6 @@ import {
   LayoutDashboard,
   ExternalLink,
 } from 'lucide-react';
-import AdminSidebar from '../components/AdminSidebar';
 import AdminKpiCards from '../components/AdminKpiCards';
 import AttentionPanel from '../components/AttentionPanel';
 import FilterPanel from '../components/FilterPanel';
@@ -29,8 +28,6 @@ export const AdminDashboardPage: React.FC = () => {
   const [data, setData] = useState<AdminDashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [timeRange, setTimeRange] = useState<TimeRangeFilter>('month');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [activeBottomTab, setActiveBottomTab] = useState<'dashboard' | 'users' | 'collections' | 'reports'>('dashboard');
 
   const loadData = async (filter: TimeRangeFilter) => {
     setLoading(true);
@@ -46,72 +43,12 @@ export const AdminDashboardPage: React.FC = () => {
     loadData(timeRange);
   }, [timeRange]);
 
-  const handleBottomTabClick = (tab: 'dashboard' | 'users' | 'collections' | 'reports') => {
-    setActiveBottomTab(tab);
-    if (tab === 'dashboard') navigate('/admin');
-    if (tab === 'users') navigate('/admin/users');
-    if (tab === 'collections') navigate('/admin/orders');
-    if (tab === 'reports') navigate('/admin/reports');
-  };
 
   return (
     <div className="admin-page-container">
       {/* Responsive Drawer & Desktop Sidebar */}
-      <AdminSidebar
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-        currentPath="/admin"
-        onNavigate={(path: string) => navigate(path)}
-      />
 
       {/* Top Mobile/PWA App Bar matching the mockup */}
-      <header className="admin-mobile-topbar" aria-label="MilkLink Administrator Header">
-        <div className="topbar-left">
-          <button
-            type="button"
-            className="topbar-icon-btn"
-            onClick={() => setIsSidebarOpen(true)}
-            aria-label="Toggle navigation menu"
-          >
-            <Menu size={22} />
-          </button>
-
-          {/* Brand Mark with droplet matching image */}
-          <div className="milklink-brand-container" onClick={() => navigate('/admin')}>
-            <svg className="brand-drop-svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path
-                d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"
-                fill="#2563eb"
-                stroke="#1d4ed8"
-                strokeWidth="1.5"
-              />
-            </svg>
-            <span className="brand-wordmark">MilkLink</span>
-          </div>
-        </div>
-
-        <div className="topbar-right">
-          <button
-            type="button"
-            className="notification-bell-btn"
-            onClick={() => navigate('/admin/sync')}
-            aria-label="Notifications (2 alerts)"
-          >
-            <Bell size={21} />
-            <span className="bell-badge-dot" />
-          </button>
-
-          <div
-            className="admin-avatar-pill"
-            onClick={() => setIsSidebarOpen(true)}
-            title="Administrator Profile"
-            role="button"
-            tabIndex={0}
-          >
-            A
-          </div>
-        </div>
-      </header>
 
       {/* Main Dashboard Scrollable Area */}
       <main className="admin-main-content">
@@ -339,47 +276,6 @@ export const AdminDashboardPage: React.FC = () => {
       </main>
 
       {/* Fixed Bottom Navigation matching Screen 4 in mockup */}
-      <nav className="admin-bottom-nav" aria-label="Administrator bottom tabs">
-        <button
-          type="button"
-          className={`bottom-nav-tab ${activeBottomTab === 'dashboard' ? 'tab-active' : ''}`}
-          onClick={() => handleBottomTabClick('dashboard')}
-          aria-current={activeBottomTab === 'dashboard' ? 'page' : undefined}
-        >
-          <LayoutDashboard size={20} />
-          <span className="tab-label">Dashboard</span>
-        </button>
-
-        <button
-          type="button"
-          className={`bottom-nav-tab ${activeBottomTab === 'users' ? 'tab-active' : ''}`}
-          onClick={() => handleBottomTabClick('users')}
-          aria-current={activeBottomTab === 'users' ? 'page' : undefined}
-        >
-          <Users size={20} />
-          <span className="tab-label">Users</span>
-        </button>
-
-        <button
-          type="button"
-          className={`bottom-nav-tab ${activeBottomTab === 'collections' ? 'tab-active' : ''}`}
-          onClick={() => handleBottomTabClick('collections')}
-          aria-current={activeBottomTab === 'collections' ? 'page' : undefined}
-        >
-          <Truck size={20} />
-          <span className="tab-label">Collections</span>
-        </button>
-
-        <button
-          type="button"
-          className={`bottom-nav-tab ${activeBottomTab === 'reports' ? 'tab-active' : ''}`}
-          onClick={() => handleBottomTabClick('reports')}
-          aria-current={activeBottomTab === 'reports' ? 'page' : undefined}
-        >
-          <FileBarChart size={20} />
-          <span className="tab-label">Reports</span>
-        </button>
-      </nav>
     </div>
   );
 };

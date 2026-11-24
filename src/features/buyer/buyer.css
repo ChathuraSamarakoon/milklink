@@ -696,3 +696,14 @@
   flex-direction: column;
   gap: 8px;
 }
+
+/* Keep order actions usable at narrow phone widths. */
+.ml-orders-topbar { flex-wrap: wrap; gap: 12px; }
+.ml-orders-topbar > div { min-width: 0; }
+@media (max-width: 360px) {
+  .ml-buyer-bottom-nav .ml-nav-tab { padding-inline: 10px; }
+}
+
+.ml2-root:has(.ml-buyer-bottom-nav) .ml2-content-inner {
+  padding-bottom: calc(106px + env(safe-area-inset-bottom, 0px));
+}

@@ -11,7 +11,6 @@ import {
   ShieldCheck,
   CheckCircle2,
 } from 'lucide-react';
-import AdminSidebar from '../components/AdminSidebar';
 import OrdersManagementTable from '../components/OrdersManagementTable';
 import OrderStatusFilter from '../components/OrderStatusFilter';
 import KpiStatCard from '../components/KpiStatCard';
@@ -27,7 +26,6 @@ export const AdminOrdersPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState(searchParams.get('userId') || searchParams.get('listingId') || '');
   const [selectedStatus, setSelectedStatus] = useState<'all' | OrderStatus>('all');
   const [timeRange, setTimeRange] = useState<TimeRangeFilter>('month');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const loadOrders = async () => {
     setLoading(true);
@@ -81,44 +79,8 @@ export const AdminOrdersPage: React.FC = () => {
   return (
     <div className="admin-page-container">
       {/* Responsive Sidebar */}
-      <AdminSidebar
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-        currentPath="/admin/orders"
-        onNavigate={(path: string) => navigate(path)}
-      />
 
       {/* Top Mobile/App Header */}
-      <header className="admin-mobile-topbar" aria-label="MilkLink Orders Header">
-        <div className="topbar-left">
-          <button
-            type="button"
-            className="topbar-icon-btn"
-            onClick={() => setIsSidebarOpen(true)}
-            aria-label="Open menu"
-          >
-            <Menu size={22} />
-          </button>
-          <button
-            type="button"
-            className="topbar-back-btn"
-            onClick={() => navigate('/admin')}
-            aria-label="Back to Admin Dashboard"
-          >
-            <ArrowLeft size={20} />
-          </button>
-          <div className="topbar-title-block">
-            <h1 className="topbar-title">Order Management</h1>
-            <span className="topbar-badge">A16–A18</span>
-          </div>
-        </div>
-
-        <div className="topbar-right">
-          <div className="admin-avatar-pill" title="Administrator Session">
-            A
-          </div>
-        </div>
-      </header>
 
       {/* Main Content Area */}
       <main className="admin-main-content">

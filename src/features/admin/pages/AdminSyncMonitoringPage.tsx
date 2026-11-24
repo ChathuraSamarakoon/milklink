@@ -12,7 +12,6 @@ import {
   Activity,
   Layers,
 } from 'lucide-react';
-import AdminSidebar from '../components/AdminSidebar';
 import KpiStatCard from '../components/KpiStatCard';
 import FilterPanel from '../components/FilterPanel';
 import SyncMonitoringTable from '../components/SyncMonitoringTable';
@@ -25,7 +24,6 @@ import type { SyncOperationRecord, TimeRangeFilter } from '../types';
 
 export const AdminSyncMonitoringPage: React.FC = () => {
   const navigate = useNavigate();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [operations, setOperations] = useState<SyncOperationRecord[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [timeRange, setTimeRange] = useState<TimeRangeFilter>('today');
@@ -111,49 +109,8 @@ export const AdminSyncMonitoringPage: React.FC = () => {
   return (
     <div className="admin-page-container">
       {/* SIDEBAR NAVIGATION DRAWER */}
-      <AdminSidebar
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-        currentPath="/admin/sync"
-        onNavigate={(path: string) => navigate(path)}
-      />
 
       {/* MOBILE TOPBAR */}
-      <header className="admin-mobile-topbar">
-        <div className="topbar-left">
-          <button
-            type="button"
-            className="topbar-icon-btn"
-            onClick={() => setIsSidebarOpen(true)}
-            aria-label="Open menu"
-          >
-            <Menu size={22} />
-          </button>
-          <button
-            type="button"
-            className="topbar-back-btn"
-            onClick={() => navigate('/admin')}
-            aria-label="Back to dashboard"
-          >
-            <ArrowLeft size={20} />
-          </button>
-          <div className="topbar-title-block">
-            <h1 className="topbar-title">Sync Monitoring</h1>
-            <span
-              className={`topbar-badge ${
-                conflictedCount > 0 ? 'badge-critical' : 'badge-neutral'
-              }`}
-            >
-              {conflictedCount} Conflicts
-            </span>
-          </div>
-        </div>
-        <div className="topbar-right">
-          <div className="admin-avatar-pill" title="System Administrator">
-            A
-          </div>
-        </div>
-      </header>
 
       {/* MAIN CONTENT AREA */}
       <main className="admin-main-content">

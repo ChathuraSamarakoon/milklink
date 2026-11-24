@@ -18,6 +18,9 @@ export function getDemoLocation(account:MockAccount): DemoLocation | null {retur
 export function saveDemoLocation(account:MockAccount, value:DemoLocation){write(key(account,'location'),value)}
 export function sampleSyncItems(account:MockAccount):DemoSyncItem[]{
  const now=new Date().toISOString();
+ if (account.role === 'collector') return [
+  {id:'collector-demo-01',kind:'collection',title:'Previous collection saved',meta:'Green Valley Farm • 28.0 L (demo)',state:'synced',createdAt:now,localQty:28},
+ ];
  return [
   {id:'sync-101',kind:'listing',title:'Milk listing updated',meta:'Available quantity • 65 L',state:'pending',createdAt:now,localQty:65},
   {id:'sync-102',kind:'order',title:'Order acceptance',meta:'Order #ML-2048 • reservation changed',state:'conflict',createdAt:now,localQty:50,serverQty:40,note:'Available milk has changed since this offline action was saved.'},

@@ -1,3 +1,4 @@
+import './ListingBanner.css';
 import { Icon, type Nav } from '../../auth/components/AuthUI';
 import { getSession } from '../../auth/components/mockAuth';
 import { Action, BottomNav, Chip, Panel, Screen } from '../../shared/components/NextUI';
@@ -12,11 +13,12 @@ export default function ListingDetailsPage({ navigate, listingId }: { navigate: 
 
   return (
     <Screen
+      className="farmer-listing-banner"
       account={account}
       navigate={navigate}
       title="Milk Listing Details"
       subtitle="View quantity, availability and related buyer orders."
-      image={listing.image || '/images/farmer-listing-details.webp'}
+      image="/images/farmer-my-listings.webp"
       eyebrow="FARMER • LISTING DETAIL"
       back="/farmer/listings"
       footer={<BottomNav navigate={navigate} active="Listings" />}
