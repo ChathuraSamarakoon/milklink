@@ -2,6 +2,8 @@ import type { ReactNode } from 'react';
 import { Brand, Icon, type IconName, type Nav, type Role } from '../../auth/components/AuthUI';
 import type { MockAccount } from '../../auth/components/mockAuth';
 import './NextUI.css';
+import BuyerNav from '../../buyer/components/BuyerNav';
+import '../../buyer/buyer.css';
 
 export function Screen({ account, navigate, title, subtitle, image, theme, children, eyebrow, back, footer, cover, className = '' }: {
  account:MockAccount; navigate:Nav; title:string; subtitle:string; image:string; theme?:Role|'common'; children:ReactNode; eyebrow?:string; back?:string;footer?:ReactNode;cover?:ReactNode;className?:string;
@@ -24,7 +26,7 @@ export function Screen({ account, navigate, title, subtitle, image, theme, child
       <div className="ml2-eyebrow">{eyebrow ?? 'YOUR MILKLINK SPACE'}</div>
       <h1>{title}</h1><p className="ml2-subtitle">{subtitle}</p>
       {children}
-      {footer ?? <p className="ml2-prototype-note"><Icon name="info" size={14}/> Interactive UI prototype · Mock data · No backend connected</p>}
+      {footer ?? (account.role === 'buyer' ? <BuyerNav/> : <p className="ml2-prototype-note"><Icon name="info" size={14}/> Interactive UI prototype · Mock data · No backend connected</p>)}
      </div>
     </div>
    </div>

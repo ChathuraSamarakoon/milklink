@@ -21,6 +21,7 @@ export default function RecordCollectionPage({ navigate, pickupId }: { navigate:
 
   function submit(event: FormEvent) {
     event.preventDefault();
+    if (!account || !pickup) return;
     const quantity = Number(actualQuantity);
     if (!Number.isFinite(quantity) || quantity <= 0 || quantity > 2000) {
       setNotice('Enter a valid collected quantity greater than 0 L and at most 2,000 L.');

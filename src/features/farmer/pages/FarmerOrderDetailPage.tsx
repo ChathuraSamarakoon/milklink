@@ -15,6 +15,7 @@ export default function FarmerOrderDetailPage({ navigate, orderId }: { navigate:
   if (!order) return null;
 
   function updateStatus(status: 'accepted' | 'declined') {
+    if (!account || !order) return;
     const freshOrders = getFarmerOrders(account);
     const latestOrder = freshOrders.find((item) => item.id === order.id);
     if (!latestOrder || latestOrder.status !== 'pending') {

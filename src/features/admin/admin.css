@@ -1859,7 +1859,7 @@
    RESPONSIVE ENHANCEMENTS FOR DESKTOP
 ---------------------------------------------------- */
 @media (min-width: 721px) {
-  body {
+  body:has(.milklink-admin-shell) {
     background-color: #edf2f7;
     padding: 20px 0;
   }

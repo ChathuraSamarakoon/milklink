@@ -1,0 +1,709 @@
+/* MilkLink Buyer Module Styling */
+.ml-buyer-screen {
+  background-color: #f1f5f9;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #0f172a;
+}
+
+/* Mobile viewport container */
+.ml-buyer-phone-frame {
+  width: 100%;
+  max-width: 440px;
+  min-height: 100vh;
+  background-color: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 10px 30px -5px rgba(15, 23, 42, 0.1), 0 0 1px 1px rgba(15, 23, 42, 0.05);
+  margin: 0 auto;
+}
+
+/* iOS-style Status Bar */
+.ml-buyer-status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 24px 6px;
+  background-color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  color: #0f172a;
+  user-select: none;
+}
+
+.ml-status-time {
+  letter-spacing: -0.2px;
+}
+
+.ml-status-icons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Top App Bar */
+.ml-buyer-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px 12px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #f1f5f9;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.ml-icon-btn {
+  background: none;
+  border: none;
+  color: #334155;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.ml-icon-btn:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+.ml-buyer-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.ml-buyer-logo-drop {
+  color: #0284c7;
+  display: flex;
+  align-items: center;
+}
+
+.ml-buyer-logo-text {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  color: #0f2d4a;
+}
+
+.ml-buyer-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ml-notif-btn {
+  position: relative;
+}
+
+.ml-notif-badge {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 9px;
+  height: 9px;
+  background-color: #ef4444;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+}
+
+.ml-avatar-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  border: 2px solid #e0f2fe;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.ml-avatar-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Scrollable Content Container */
+.ml-buyer-content {
+  flex: 1;
+  padding: 16px 16px 84px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* Hero Greeting Banner */
+.ml-buyer-hero-card {
+  position: relative;
+  background: linear-gradient(135deg, #dbeafe 0%, #cbebfe 45%, #93c5fd 100%);
+  border-radius: 24px;
+  padding: 22px 20px 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 18px -2px rgba(2, 132, 199, 0.12);
+  min-height: 136px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ml-buyer-hero-info {
+  position: relative;
+  z-index: 2;
+  max-width: 62%;
+}
+
+.ml-buyer-greeting {
+  font-size: 15px;
+  color: #1e3a5f;
+  margin: 0;
+  font-weight: 500;
+}
+
+.ml-buyer-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 2px 0 10px;
+}
+
+.ml-buyer-name {
+  font-size: 21px;
+  font-weight: 800;
+  color: #0c2340;
+  letter-spacing: -0.3px;
+  line-height: 1.2;
+}
+
+.ml-wave-emoji {
+  font-size: 20px;
+  display: inline-block;
+  animation: waveAnim 2s infinite ease-in-out origin-bottom-right;
+}
+
+@keyframes waveAnim {
+  0%, 100% { transform: rotate(0deg); }
+  20%, 60% { transform: rotate(14deg); }
+  40%, 80% { transform: rotate(-10deg); }
+}
+
+.ml-buyer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #0284c7;
+  color: #ffffff;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 2px 6px rgba(2, 132, 199, 0.25);
+}
+
+.ml-buyer-hero-visual {
+  position: absolute;
+  right: -8px;
+  bottom: -4px;
+  width: 145px;
+  height: 140px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.ml-buyer-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 12px rgba(2, 132, 199, 0.25));
+}
+
+/* Floating Search Bar */
+.ml-buyer-search-wrapper {
+  margin-top: -2px;
+}
+
+.ml-buyer-search-box {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+  border: 1px solid #f1f5f9;
+  transition: all 0.2s ease;
+}
+
+.ml-buyer-search-box:focus-within {
+  border-color: #38bdf8;
+  box-shadow: 0 6px 20px rgba(2, 132, 199, 0.12);
+}
+
+.ml-search-icon {
+  color: #64748b;
+  display: flex;
+  align-items: center;
+}
+
+.ml-buyer-search-input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  font-size: 14px;
+  color: #0f172a;
+  outline: none;
+}
+
+.ml-buyer-search-input::placeholder {
+  color: #94a3b8;
+}
+
+.ml-search-clear {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 50%;
+}
+
+.ml-search-clear:hover {
+  color: #475569;
+}
+
+/* Product Categories Grid */
+.ml-categories-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.ml-category-tile {
+  background-color: #ffffff;
+  border-radius: 18px;
+  padding: 14px 6px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+  border: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  user-select: none;
+}
+
+.ml-category-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.07);
+}
+
+.ml-category-tile.is-active {
+  background: #f0f9ff;
+  border-color: #0284c7;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+}
+
+.ml-cat-icon-wrap {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+}
+
+.ml-cat-icon-svg {
+  width: 36px;
+  height: 36px;
+}
+
+.ml-cat-title {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #334155;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.ml-category-tile.is-active .ml-cat-title {
+  color: #0284c7;
+  font-weight: 800;
+}
+
+/* Nearby Farmers Section */
+.ml-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
+
+.ml-section-title {
+  font-size: 17px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.2px;
+}
+
+.ml-section-link {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0284c7;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: background-color 0.15s ease;
+}
+
+.ml-section-link:hover {
+  background-color: #f0f9ff;
+  text-decoration: underline;
+}
+
+/* Farmer List Cards */
+.ml-farmers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ml-farmer-card {
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.04);
+  border: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  position: relative;
+}
+
+.ml-farmer-card:hover {
+  transform: translateY(-2px);
+  border-color: #bae6fd;
+  box-shadow: 0 6px 18px rgba(2, 132, 199, 0.09);
+}
+
+.ml-farmer-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.ml-farmer-avatar-img {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e0f2fe;
+}
+
+.ml-farmer-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ml-farmer-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ml-farmer-meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 2px;
+}
+
+.ml-farmer-tags {
+  font-size: 12px;
+  color: #475569;
+  font-weight: 500;
+}
+
+.ml-farmer-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.ml-rating-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.ml-star-icon {
+  color: #eab308;
+}
+
+.ml-chevron-icon {
+  color: #94a3b8;
+}
+
+.ml-farmer-card:hover .ml-chevron-icon {
+  color: #0284c7;
+  transform: translateX(2px);
+  transition: transform 0.15s ease;
+}
+
+/* Bottom Navigation Bar */
+.ml-buyer-bottom-nav {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 12px 14px;
+  box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.04);
+  z-index: 40;
+}
+
+.ml-nav-tab {
+  background: none;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: #64748b;
+  cursor: pointer;
+  padding: 6px 14px;
+  border-radius: 12px;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.ml-nav-tab:hover {
+  color: #0284c7;
+  background-color: #f8fafc;
+}
+
+.ml-nav-tab.is-active {
+  color: #0284c7;
+}
+
+.ml-nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ml-nav-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: -0.1px;
+}
+
+/* Modals & Drawers */
+.ml-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(2px);
+  z-index: 99;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.ml-modal-sheet {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 440px;
+  border-radius: 24px 24px 0 0;
+  padding: 20px 20px 32px;
+  box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.15);
+  animation: slideUp 0.22s ease-out;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+.ml-sheet-handle {
+  width: 40px;
+  height: 4px;
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+  margin: 0 auto 16px;
+}
+
+.ml-modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+}
+
+.ml-modal-close-btn:hover {
+  color: #0f172a;
+}
+
+/* =========================================
+   Leaflet Map & Approximate Marker Styles
+   ========================================= */
+
+.ml-custom-leaflet-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+.ml-farm-map-pin {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translate(-50%, -100%);
+  transition: transform 0.15s ease-out;
+  cursor: pointer;
+  user-select: none;
+}
+
+.ml-farm-map-pin:hover {
+  transform: translate(-50%, -108%) scale(1.08);
+  z-index: 999;
+}
+
+.ml-farm-map-pin.is-selected {
+  transform: translate(-50%, -110%) scale(1.15);
+  z-index: 1000;
+}
+
+.ml-pin-bubble {
+  background-color: #ffffff;
+  border: 2px solid #0284c7;
+  border-radius: 9999px;
+  padding: 2px 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+  white-space: nowrap;
+}
+
+.ml-farm-map-pin.is-selected .ml-pin-bubble {
+  border-color: #10b981;
+  background-color: #ecfdf5;
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+}
+
+.ml-pin-emoji {
+  font-size: 11px;
+}
+
+.ml-pin-litres {
+  font-size: 11px;
+  font-weight: 800;
+  color: #0c2340;
+}
+
+.ml-farm-map-pin.is-selected .ml-pin-litres {
+  color: #047857;
+}
+
+.ml-pin-stem {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid #0284c7;
+  margin-top: -1px;
+}
+
+.ml-farm-map-pin.is-selected .ml-pin-stem {
+  border-top-color: #10b981;
+}
+
+.ml-pin-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: #1e293b;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 1px 5px;
+  border-radius: 4px;
+  margin-top: 1px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Map Drawer Sheet */
+.ml-map-drawer {
+  background-color: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -4px 20px rgba(15, 23, 42, 0.08);
+  max-height: 40vh;
+  display: flex;
+  flex-direction: column;
+  z-index: 30;
+}
+
+.ml-map-drawer-header {
+  padding: 10px 16px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.ml-map-drawer-body {
+  padding: 10px 14px 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Keep order actions usable at narrow phone widths. */
+.ml-orders-topbar { flex-wrap: wrap; gap: 12px; }
+.ml-orders-topbar > div { min-width: 0; }
+@media (max-width: 360px) {
+  .ml-buyer-bottom-nav .ml-nav-tab { padding-inline: 10px; }
+}
+
+.ml2-root:has(.ml-buyer-bottom-nav) .ml2-content-inner {
+  padding-bottom: calc(106px + env(safe-area-inset-bottom, 0px));
+}
